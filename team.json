@@ -1,0 +1,27 @@
+{
+  "team_number": "T0078",
+  "group_lead": {
+    "name": "Karunesh Mahra",
+    "enrollment_no": "2501010214",
+    "github": "Kingleo007"
+  },
+  "members": [
+    {
+      "name": "Vishnu Pratap",
+      "enrollment_no": "2501010516",
+      "github": "vishnupratap1711VPS"
+    },
+    {
+      "name": "Arjun Mittal",
+      "enrollment_no": "2501010079",
+      "github": "arjunmittal1504"
+    },
+    {
+      "name": "Saurabh",
+      "enrollment_no": "2501010415",
+      "github": "saurabhydv1205"
+    }
+  ],
+  "postgres_version": "PostgreSQL 17",
+  "laptop_used_for_benchmarks": "Apple MacBook Pro M4 Pro"
+}
