@@ -18,16 +18,16 @@
 
 ---
 
-## Team details (fill in before you start)
+## Team details
 
 | Role | Name | Enrollment No. | GitHub Username |
 |------|------|----------------|-----------------|
-| Group Lead | | | |
-| Member 2 | | | |
-| Member 3 | | | |
-| Member 4 | | | |
+| Group Lead | Karunesh Mahra | 2501010214 | [Kingleo007](https://github.com/Kingleo007) |
+| Member 2 | Vishnu Pratap | 2501010516 | [vishnupratap1711VPS](https://github.com/vishnupratap1711VPS) |
+| Member 3 | Arjun Mittal | 2501010079 | [arjunmittal1504](https://github.com/arjunmittal1504) |
+| Member 4 | Saurabh | 2501010415 | [saurabhydv1205](https://github.com/saurabhydv1205) |
 
-**Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
+**Team No.:** T0078 · **Section:** C · **Repository URL:** https://github.com/Kingleo007/DE_project_2026
 
 ---
 
