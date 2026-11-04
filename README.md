@@ -1,4 +1,5 @@
 # OLX Used Goods Marketplace Database: DBMS Project
+# do remember to add secret keys in the project
 
 **Course:** Database Management Systems · **Year:** B.Tech 2nd year · **Team size:** 4
 **Database:** PostgreSQL 15 or newer · **Final submission:** Mon 23 Nov 2026
