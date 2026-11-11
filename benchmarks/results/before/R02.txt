@@ -1,0 +1,51 @@
+=== R02 run 1 ===
+Sort  (cost=7808.17..7808.18 rows=1 width=102) (actual time=6.107..6.930 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=4602
+  ->  Gather  (cost=1000.00..7808.16 rows=1 width=102) (actual time=1.094..6.918 rows=5.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4599
+        ->  Parallel Seq Scan on listings  (cost=0.00..6808.06 rows=1 width=102) (actual time=2.638..4.394 rows=1.67 loops=3)
+              Filter: ((category_id = 2) AND (city_id = 6) AND ((status)::text = 'ACTIVE'::text) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+              Rows Removed by Filter: 39998
+              Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=134
+Planning Time: 0.213 ms
+Execution Time: 6.952 ms
+=== R02 run 2 ===
+Sort  (cost=7808.17..7808.18 rows=1 width=102) (actual time=5.408..6.172 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=4602
+  ->  Gather  (cost=1000.00..7808.16 rows=1 width=102) (actual time=0.961..6.157 rows=5.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4599
+        ->  Parallel Seq Scan on listings  (cost=0.00..6808.06 rows=1 width=102) (actual time=1.735..3.897 rows=1.67 loops=3)
+              Filter: ((category_id = 2) AND (city_id = 6) AND ((status)::text = 'ACTIVE'::text) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+              Rows Removed by Filter: 39998
+              Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=134
+Planning Time: 0.211 ms
+Execution Time: 6.194 ms
+=== R02 run 3 ===
+Sort  (cost=7808.17..7808.18 rows=1 width=102) (actual time=5.144..5.853 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=4602
+  ->  Gather  (cost=1000.00..7808.16 rows=1 width=102) (actual time=0.892..5.843 rows=5.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4599
+        ->  Parallel Seq Scan on listings  (cost=0.00..6808.06 rows=1 width=102) (actual time=2.223..3.715 rows=1.67 loops=3)
+              Filter: ((category_id = 2) AND (city_id = 6) AND ((status)::text = 'ACTIVE'::text) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+              Rows Removed by Filter: 39998
+              Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=134
+Planning Time: 0.204 ms
+Execution Time: 5.874 ms

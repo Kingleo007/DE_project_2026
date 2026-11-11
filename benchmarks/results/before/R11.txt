@@ -1,0 +1,99 @@
+=== R11 run 1 ===
+Sort  (cost=4644.74..4645.42 rows=272 width=60) (actual time=1.998..1.999 rows=44.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=2006
+  ->  GroupAggregate  (cost=4611.31..4633.75 rows=272 width=60) (actual time=1.847..1.987 rows=44.00 loops=1)
+        Group Key: r.listing_id, l.title
+        Filter: (count(*) >= 3)
+        Rows Removed by Filter: 595
+        Buffers: shared hit=2003
+        ->  Sort  (cost=4611.31..4613.35 rows=816 width=29) (actual time=1.833..1.846 rows=816.00 loops=1)
+              Sort Key: r.listing_id, l.title, r.reason
+              Sort Method: quicksort  Memory: 64kB
+              Buffers: shared hit=2003
+              ->  Nested Loop  (cost=0.30..4571.84 rows=816 width=29) (actual time=0.016..1.736 rows=816.00 loops=1)
+                    Buffers: shared hit=1997
+                    ->  Seq Scan on reports r  (cost=0.00..179.99 rows=816 width=13) (actual time=0.005..0.307 rows=816.00 loops=1)
+                          Filter: ((status)::text = 'OPEN'::text)
+                          Rows Removed by Filter: 7183
+                          Buffers: shared hit=80
+                    ->  Memoize  (cost=0.30..5.61 rows=1 width=20) (actual time=0.002..0.002 rows=1.00 loops=816)
+                          Cache Key: r.listing_id
+                          Cache Mode: logical
+                          Hits: 177  Misses: 639  Evictions: 0  Overflows: 0  Memory Usage: 77kB
+                          Buffers: shared hit=1917
+                          ->  Index Scan using listings_pkey on listings l  (cost=0.29..5.60 rows=1 width=20) (actual time=0.002..0.002 rows=1.00 loops=639)
+                                Index Cond: (listing_id = r.listing_id)
+                                Index Searches: 639
+                                Buffers: shared hit=1917
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.363 ms
+Execution Time: 2.034 ms
+=== R11 run 2 ===
+Sort  (cost=4644.74..4645.42 rows=272 width=60) (actual time=1.969..1.970 rows=44.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=2006
+  ->  GroupAggregate  (cost=4611.31..4633.75 rows=272 width=60) (actual time=1.820..1.961 rows=44.00 loops=1)
+        Group Key: r.listing_id, l.title
+        Filter: (count(*) >= 3)
+        Rows Removed by Filter: 595
+        Buffers: shared hit=2003
+        ->  Sort  (cost=4611.31..4613.35 rows=816 width=29) (actual time=1.808..1.822 rows=816.00 loops=1)
+              Sort Key: r.listing_id, l.title, r.reason
+              Sort Method: quicksort  Memory: 64kB
+              Buffers: shared hit=2003
+              ->  Nested Loop  (cost=0.30..4571.84 rows=816 width=29) (actual time=0.013..1.709 rows=816.00 loops=1)
+                    Buffers: shared hit=1997
+                    ->  Seq Scan on reports r  (cost=0.00..179.99 rows=816 width=13) (actual time=0.004..0.309 rows=816.00 loops=1)
+                          Filter: ((status)::text = 'OPEN'::text)
+                          Rows Removed by Filter: 7183
+                          Buffers: shared hit=80
+                    ->  Memoize  (cost=0.30..5.61 rows=1 width=20) (actual time=0.002..0.002 rows=1.00 loops=816)
+                          Cache Key: r.listing_id
+                          Cache Mode: logical
+                          Hits: 177  Misses: 639  Evictions: 0  Overflows: 0  Memory Usage: 77kB
+                          Buffers: shared hit=1917
+                          ->  Index Scan using listings_pkey on listings l  (cost=0.29..5.60 rows=1 width=20) (actual time=0.002..0.002 rows=1.00 loops=639)
+                                Index Cond: (listing_id = r.listing_id)
+                                Index Searches: 639
+                                Buffers: shared hit=1917
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.298 ms
+Execution Time: 2.003 ms
+=== R11 run 3 ===
+Sort  (cost=4644.74..4645.42 rows=272 width=60) (actual time=1.951..1.952 rows=44.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=2006
+  ->  GroupAggregate  (cost=4611.31..4633.75 rows=272 width=60) (actual time=1.805..1.942 rows=44.00 loops=1)
+        Group Key: r.listing_id, l.title
+        Filter: (count(*) >= 3)
+        Rows Removed by Filter: 595
+        Buffers: shared hit=2003
+        ->  Sort  (cost=4611.31..4613.35 rows=816 width=29) (actual time=1.792..1.806 rows=816.00 loops=1)
+              Sort Key: r.listing_id, l.title, r.reason
+              Sort Method: quicksort  Memory: 64kB
+              Buffers: shared hit=2003
+              ->  Nested Loop  (cost=0.30..4571.84 rows=816 width=29) (actual time=0.012..1.698 rows=816.00 loops=1)
+                    Buffers: shared hit=1997
+                    ->  Seq Scan on reports r  (cost=0.00..179.99 rows=816 width=13) (actual time=0.003..0.311 rows=816.00 loops=1)
+                          Filter: ((status)::text = 'OPEN'::text)
+                          Rows Removed by Filter: 7183
+                          Buffers: shared hit=80
+                    ->  Memoize  (cost=0.30..5.61 rows=1 width=20) (actual time=0.002..0.002 rows=1.00 loops=816)
+                          Cache Key: r.listing_id
+                          Cache Mode: logical
+                          Hits: 177  Misses: 639  Evictions: 0  Overflows: 0  Memory Usage: 77kB
+                          Buffers: shared hit=1917
+                          ->  Index Scan using listings_pkey on listings l  (cost=0.29..5.60 rows=1 width=20) (actual time=0.002..0.002 rows=1.00 loops=639)
+                                Index Cond: (listing_id = r.listing_id)
+                                Index Searches: 639
+                                Buffers: shared hit=1917
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.295 ms
+Execution Time: 1.984 ms

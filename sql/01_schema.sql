@@ -1,5 +1,5 @@
 -- OLX Used Goods Marketplace
--- Database schema creation
+-- Database schema creation = copy this in pgadmin
 CREATE SCHEMA IF NOT EXISTS olx;
 SET search_path TO olx;
 
@@ -93,6 +93,15 @@ CREATE TABLE listings (
         REFERENCES boost_packages (package_id)
         ON DELETE SET NULL
 );
+-- 
+
+-- I ran later
+-- ALTER TABLE olx.listings
+-- ALTER COLUMN is_negotiable SET DEFAULT FALSE;
+-- ALTER TABLE olx.listings
+-- ALTER COLUMN view_count SET DEFAULT 0;
+-- due to problem in write query
+
 
 -- 6. Chat threads
 CREATE TABLE chat_threads (
@@ -127,6 +136,9 @@ CREATE TABLE chat_messages (
         REFERENCES users (user_id)
         ON DELETE RESTRICT
 );
+
+-- ALTER TABLE olx.chat_messages
+-- ALTER COLUMN is_read SET DEFAULT FALSE;
 
 -- 8. Offers
 CREATE TABLE offers (

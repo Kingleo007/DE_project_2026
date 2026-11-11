@@ -1,0 +1,33 @@
+=== W04 run 1 ===
+Update on listings  (cost=0.00..6470.20 rows=0 width=0) (actual time=16.450..16.451 rows=0.00 loops=1)
+  Buffers: shared hit=22328 dirtied=79 written=77
+  ->  Seq Scan on listings  (cost=0.00..6470.20 rows=9480 width=64) (actual time=0.023..10.220 rows=2256.00 loops=1)
+        Filter: ((expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+        Rows Removed by Filter: 117744
+        Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.144 ms
+Execution Time: 16.488 ms
+=== W04 run 2 ===
+Update on listings  (cost=0.00..6578.52 rows=0 width=0) (actual time=16.699..16.699 rows=0.00 loops=1)
+  Buffers: shared hit=22390 dirtied=84 written=77
+  ->  Seq Scan on listings  (cost=0.00..6578.52 rows=9639 width=64) (actual time=0.024..10.487 rows=2256.00 loops=1)
+        Filter: ((expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+        Rows Removed by Filter: 117744
+        Buffers: shared hit=4676
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.134 ms
+Execution Time: 16.734 ms
+=== W04 run 3 ===
+Update on listings  (cost=0.00..6686.86 rows=0 width=0) (actual time=17.225..17.226 rows=0.00 loops=1)
+  Buffers: shared hit=22809 dirtied=87 written=77
+  ->  Seq Scan on listings  (cost=0.00..6686.86 rows=9797 width=64) (actual time=0.023..10.651 rows=2256.00 loops=1)
+        Filter: ((expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+        Rows Removed by Filter: 117744
+        Buffers: shared hit=4753
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.149 ms
+Execution Time: 17.264 ms

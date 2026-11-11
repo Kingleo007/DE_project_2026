@@ -1,0 +1,63 @@
+=== R03 run 1 ===
+Limit  (cost=6383.69..6388.35 rows=40 width=35) (actual time=18.357..19.076 rows=40.00 loops=1)
+  Buffers: shared hit=4673
+  ->  Gather Merge  (cost=6383.69..6427.83 rows=379 width=35) (actual time=18.357..19.073 rows=40.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4673
+        ->  Sort  (cost=5383.66..5384.06 rows=158 width=35) (actual time=17.029..17.030 rows=30.33 loops=3)
+              Sort Key: price
+              Sort Method: top-N heapsort  Memory: 29kB
+              Buffers: shared hit=4673
+              Worker 0:  Sort Method: top-N heapsort  Memory: 29kB
+              Worker 1:  Sort Method: top-N heapsort  Memory: 30kB
+              ->  Parallel Seq Scan on listings  (cost=0.00..5378.67 rows=158 width=35) (actual time=0.168..16.976 rows=125.00 loops=3)
+                    Filter: (((title)::text ~~* '%iphone 13%'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Rows Removed by Filter: 39875
+                    Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=123
+Planning Time: 0.296 ms
+Execution Time: 19.094 ms
+=== R03 run 2 ===
+Limit  (cost=6383.69..6388.35 rows=40 width=35) (actual time=18.497..19.199 rows=40.00 loops=1)
+  Buffers: shared hit=4673
+  ->  Gather Merge  (cost=6383.69..6427.83 rows=379 width=35) (actual time=18.496..19.196 rows=40.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4673
+        ->  Sort  (cost=5383.66..5384.06 rows=158 width=35) (actual time=17.214..17.215 rows=31.67 loops=3)
+              Sort Key: price
+              Sort Method: top-N heapsort  Memory: 29kB
+              Buffers: shared hit=4673
+              Worker 0:  Sort Method: top-N heapsort  Memory: 29kB
+              Worker 1:  Sort Method: top-N heapsort  Memory: 30kB
+              ->  Parallel Seq Scan on listings  (cost=0.00..5378.67 rows=158 width=35) (actual time=0.077..17.162 rows=125.00 loops=3)
+                    Filter: (((title)::text ~~* '%iphone 13%'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Rows Removed by Filter: 39875
+                    Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=123
+Planning Time: 0.267 ms
+Execution Time: 19.215 ms
+=== R03 run 3 ===
+Limit  (cost=6383.69..6388.35 rows=40 width=35) (actual time=18.195..18.928 rows=40.00 loops=1)
+  Buffers: shared hit=4673
+  ->  Gather Merge  (cost=6383.69..6427.83 rows=379 width=35) (actual time=18.195..18.916 rows=40.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4673
+        ->  Sort  (cost=5383.66..5384.06 rows=158 width=35) (actual time=16.893..16.894 rows=31.33 loops=3)
+              Sort Key: price
+              Sort Method: top-N heapsort  Memory: 29kB
+              Buffers: shared hit=4673
+              Worker 0:  Sort Method: top-N heapsort  Memory: 29kB
+              Worker 1:  Sort Method: top-N heapsort  Memory: 29kB
+              ->  Parallel Seq Scan on listings  (cost=0.00..5378.67 rows=158 width=35) (actual time=0.077..16.841 rows=125.00 loops=3)
+                    Filter: (((title)::text ~~* '%iphone 13%'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Rows Removed by Filter: 39875
+                    Buffers: shared hit=4599
+Planning:
+  Buffers: shared hit=123
+Planning Time: 0.258 ms
+Execution Time: 18.952 ms

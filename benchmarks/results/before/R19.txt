@@ -1,0 +1,117 @@
+=== R19 run 1 ===
+Sort  (cost=1934895.57..1934896.26 rows=274 width=36) (actual time=1841.140..1841.164 rows=279.00 loops=1)
+  Sort Key: ((SubPlan 1)) DESC
+  Sort Method: quicksort  Memory: 39kB
+  Buffers: shared hit=473600
+  ->  Gather  (cost=1000.00..1934884.48 rows=274 width=36) (actual time=2.803..1840.979 rows=279.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=473597
+        ->  Parallel Seq Scan on listings l  (cost=0.00..5508.61 rows=114 width=20) (actual time=0.086..3.701 rows=93.00 loops=3)
+              Filter: ((category_id = 2) AND (city_id = 1) AND ((status)::text = 'ACTIVE'::text))
+              Rows Removed by Filter: 39907
+              Buffers: shared hit=4599
+        SubPlan 1
+          ->  Aggregate  (cost=1130.19..1130.20 rows=1 width=8) (actual time=1.200..1.200 rows=1.00 loops=279)
+                Buffers: shared hit=106578
+                ->  Seq Scan on chat_threads t  (cost=0.00..1130.19 rows=1 width=0) (actual time=0.905..1.197 rows=0.57 loops=279)
+                      Filter: (listing_id = l.listing_id)
+                      Rows Removed by Filter: 59854
+                      Buffers: shared hit=106578
+        SubPlan 2
+          ->  Aggregate  (cost=5907.56..5907.57 rows=1 width=8) (actual time=5.394..5.394 rows=1.00 loops=279)
+                Buffers: shared hit=362420
+                ->  Hash Join  (cost=1130.20..5907.55 rows=4 width=8) (actual time=2.972..5.390 rows=2.09 loops=279)
+                      Hash Cond: (m.thread_id = t_1.thread_id)
+                      Buffers: shared hit=362420
+                      ->  Seq Scan on chat_messages m  (cost=0.00..4227.29 rows=209529 width=12) (actual time=0.001..4.427 rows=207797.36 loops=121)
+                            Buffers: shared hit=255842
+                      ->  Hash  (cost=1130.19..1130.19 rows=1 width=4) (actual time=1.176..1.176 rows=0.57 loops=279)
+                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                            Buffers: shared hit=106578
+                            ->  Seq Scan on chat_threads t_1  (cost=0.00..1130.19 rows=1 width=4) (actual time=0.884..1.174 rows=0.57 loops=279)
+                                  Filter: (listing_id = l.listing_id)
+                                  Rows Removed by Filter: 59854
+                                  Buffers: shared hit=106578
+Planning:
+  Buffers: shared hit=264
+Planning Time: 0.407 ms
+Execution Time: 1841.215 ms
+=== R19 run 2 ===
+Sort  (cost=1934895.57..1934896.26 rows=274 width=36) (actual time=1750.722..1750.747 rows=279.00 loops=1)
+  Sort Key: ((SubPlan 1)) DESC
+  Sort Method: quicksort  Memory: 39kB
+  Buffers: shared hit=473600
+  ->  Gather  (cost=1000.00..1934884.48 rows=274 width=36) (actual time=2.826..1750.679 rows=279.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=473597
+        ->  Parallel Seq Scan on listings l  (cost=0.00..5508.61 rows=114 width=20) (actual time=0.096..3.890 rows=93.00 loops=3)
+              Filter: ((category_id = 2) AND (city_id = 1) AND ((status)::text = 'ACTIVE'::text))
+              Rows Removed by Filter: 39907
+              Buffers: shared hit=4599
+        SubPlan 1
+          ->  Aggregate  (cost=1130.19..1130.20 rows=1 width=8) (actual time=1.137..1.137 rows=1.00 loops=279)
+                Buffers: shared hit=106578
+                ->  Seq Scan on chat_threads t  (cost=0.00..1130.19 rows=1 width=0) (actual time=0.856..1.136 rows=0.57 loops=279)
+                      Filter: (listing_id = l.listing_id)
+                      Rows Removed by Filter: 59854
+                      Buffers: shared hit=106578
+        SubPlan 2
+          ->  Aggregate  (cost=5907.56..5907.57 rows=1 width=8) (actual time=5.135..5.135 rows=1.00 loops=279)
+                Buffers: shared hit=362420
+                ->  Hash Join  (cost=1130.20..5907.55 rows=4 width=8) (actual time=2.835..5.134 rows=2.09 loops=279)
+                      Hash Cond: (m.thread_id = t_1.thread_id)
+                      Buffers: shared hit=362420
+                      ->  Seq Scan on chat_messages m  (cost=0.00..4227.29 rows=209529 width=12) (actual time=0.000..4.172 rows=207797.36 loops=121)
+                            Buffers: shared hit=255842
+                      ->  Hash  (cost=1130.19..1130.19 rows=1 width=4) (actual time=1.129..1.129 rows=0.57 loops=279)
+                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                            Buffers: shared hit=106578
+                            ->  Seq Scan on chat_threads t_1  (cost=0.00..1130.19 rows=1 width=4) (actual time=0.850..1.129 rows=0.57 loops=279)
+                                  Filter: (listing_id = l.listing_id)
+                                  Rows Removed by Filter: 59854
+                                  Buffers: shared hit=106578
+Planning:
+  Buffers: shared hit=264
+Planning Time: 0.385 ms
+Execution Time: 1750.793 ms
+=== R19 run 3 ===
+Sort  (cost=1934895.57..1934896.26 rows=274 width=36) (actual time=1830.719..1830.752 rows=279.00 loops=1)
+  Sort Key: ((SubPlan 1)) DESC
+  Sort Method: quicksort  Memory: 39kB
+  Buffers: shared hit=473600
+  ->  Gather  (cost=1000.00..1934884.48 rows=274 width=36) (actual time=3.117..1830.610 rows=279.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=473597
+        ->  Parallel Seq Scan on listings l  (cost=0.00..5508.61 rows=114 width=20) (actual time=0.052..3.625 rows=93.00 loops=3)
+              Filter: ((category_id = 2) AND (city_id = 1) AND ((status)::text = 'ACTIVE'::text))
+              Rows Removed by Filter: 39907
+              Buffers: shared hit=4599
+        SubPlan 1
+          ->  Aggregate  (cost=1130.19..1130.20 rows=1 width=8) (actual time=1.187..1.187 rows=1.00 loops=279)
+                Buffers: shared hit=106578
+                ->  Seq Scan on chat_threads t  (cost=0.00..1130.19 rows=1 width=0) (actual time=0.894..1.185 rows=0.57 loops=279)
+                      Filter: (listing_id = l.listing_id)
+                      Rows Removed by Filter: 59854
+                      Buffers: shared hit=106578
+        SubPlan 2
+          ->  Aggregate  (cost=5907.56..5907.57 rows=1 width=8) (actual time=5.371..5.371 rows=1.00 loops=279)
+                Buffers: shared hit=362420
+                ->  Hash Join  (cost=1130.20..5907.55 rows=4 width=8) (actual time=2.944..5.368 rows=2.09 loops=279)
+                      Hash Cond: (m.thread_id = t_1.thread_id)
+                      Buffers: shared hit=362420
+                      ->  Seq Scan on chat_messages m  (cost=0.00..4227.29 rows=209529 width=12) (actual time=0.001..4.382 rows=207797.36 loops=121)
+                            Buffers: shared hit=255842
+                      ->  Hash  (cost=1130.19..1130.19 rows=1 width=4) (actual time=1.177..1.177 rows=0.57 loops=279)
+                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                            Buffers: shared hit=106578
+                            ->  Seq Scan on chat_threads t_1  (cost=0.00..1130.19 rows=1 width=4) (actual time=0.886..1.176 rows=0.57 loops=279)
+                                  Filter: (listing_id = l.listing_id)
+                                  Rows Removed by Filter: 59854
+                                  Buffers: shared hit=106578
+Planning:
+  Buffers: shared hit=264
+Planning Time: 0.409 ms
+Execution Time: 1830.801 ms
