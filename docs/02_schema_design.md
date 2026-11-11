@@ -213,52 +213,22 @@ The `favourites` table resolves the many-to-many relationship between users and 
 
 ### 5.1 Mermaid ER Diagram Code
 
+Core Marketplace
 ```mermaid
 erDiagram
-    CITIES ||--o{ USERS : "user city"
-    CITIES ||--o{ LISTINGS : "listing city"
-
-    CATEGORIES o|--o{ CATEGORIES : "parent category"
+    CITIES ||--o{ USERS : "user location"
+    CITIES ||--o{ LISTINGS : "listing location"
     CATEGORIES ||--o{ LISTINGS : "classifies"
-
+    CATEGORIES o|--o{ CATEGORIES : "parent category"
     BOOST_PACKAGES o|--o{ LISTINGS : "optional boost"
-
-    USERS ||--o{ LISTINGS : "seller"
-    LISTINGS ||--o{ CHAT_THREADS : "about listing"
-    USERS ||--o{ CHAT_THREADS : "buyer"
-
-    CHAT_THREADS ||--o{ CHAT_MESSAGES : "contains"
-    USERS ||--o{ CHAT_MESSAGES : "sender"
-
-    LISTINGS ||--o{ OFFERS : "receives"
-    USERS ||--o{ OFFERS : "buyer"
-
-    USERS ||--o{ FAVOURITES : "saves"
-    LISTINGS ||--o{ FAVOURITES : "saved listing"
-
-    LISTINGS ||--o{ REPORTS : "reported listing"
-    USERS ||--o{ REPORTS : "reporter"
-
-    USERS ||--o{ SELLER_RATINGS : "rated seller"
-    USERS ||--o{ SELLER_RATINGS : "rating author"
-    LISTINGS ||--o{ SELLER_RATINGS : "rated listing"
+    USERS ||--o{ LISTINGS : "posts"
 
     CITIES {
         int city_id PK
         varchar city_name
         varchar state
     }
-    CATEGORIES {
-        int category_id PK
-        varchar category_name
-        int parent_id FK
-    }
-    BOOST_PACKAGES {
-        int package_id PK
-        varchar package_name
-        numeric price
-        int duration_days
-    }
+
     USERS {
         int user_id PK
         varchar full_name
@@ -269,6 +239,20 @@ erDiagram
         boolean is_banned
         timestamptz joined_at
     }
+
+    CATEGORIES {
+        int category_id PK
+        varchar category_name
+        int parent_id FK
+    }
+
+    BOOST_PACKAGES {
+        int package_id PK
+        varchar package_name
+        numeric price
+        int duration_days
+    }
+
     LISTINGS {
         int listing_id PK
         int seller_id FK
@@ -291,12 +275,32 @@ erDiagram
         timestamptz expires_at
         timestamptz sold_at
     }
+```
+
+Chat System
+```mermaid
+erDiagram
+    USERS ||--o{ CHAT_THREADS : "buyer opens"
+    LISTINGS ||--o{ CHAT_THREADS : "discussed in"
+    CHAT_THREADS ||--o{ CHAT_MESSAGES : "contains"
+    USERS ||--o{ CHAT_MESSAGES : "sends"
+
+    USERS {
+        int user_id PK
+    }
+
+    LISTINGS {
+        int listing_id PK
+        int seller_id FK
+    }
+
     CHAT_THREADS {
         int thread_id PK
         int listing_id FK
         int buyer_id FK
         timestamptz created_at
     }
+
     CHAT_MESSAGES {
         int message_id PK
         int thread_id FK
@@ -305,6 +309,24 @@ erDiagram
         timestamptz sent_at
         boolean is_read
     }
+```
+
+Offers and Favourites
+```mermaid
+erDiagram
+    USERS ||--o{ OFFERS : "makes"
+    LISTINGS ||--o{ OFFERS : "receives"
+    USERS ||--o{ FAVOURITES : "saves"
+    LISTINGS ||--o{ FAVOURITES : "is saved"
+
+    USERS {
+        int user_id PK
+    }
+
+    LISTINGS {
+        int listing_id PK
+    }
+
     OFFERS {
         int offer_id PK
         int listing_id FK
@@ -314,11 +336,32 @@ erDiagram
         timestamptz created_at
         timestamptz responded_at
     }
+
     FAVOURITES {
         int user_id PK, FK
         int listing_id PK, FK
         timestamptz saved_at
     }
+```
+
+Reports and Seller Ratings
+```mermaid
+erDiagram
+    USERS ||--o{ REPORTS : "reports"
+    LISTINGS ||--o{ REPORTS : "is reported"
+    USERS ||--o{ SELLER_RATINGS : "receives rating"
+    USERS ||--o{ SELLER_RATINGS : "gives rating"
+    LISTINGS ||--o{ SELLER_RATINGS : "rated listing"
+
+    USERS {
+        int user_id PK
+    }
+
+    LISTINGS {
+        int listing_id PK
+        int seller_id FK
+    }
+
     REPORTS {
         int report_id PK
         int listing_id FK
@@ -327,6 +370,7 @@ erDiagram
         timestamptz created_at
         varchar status
     }
+
     SELLER_RATINGS {
         int rating_id PK
         int seller_id FK
@@ -338,10 +382,7 @@ erDiagram
     }
 ```
 
-> Export the rendered Mermaid diagram as `diagrams/er_diagram.png` for the Phase 2 submission. The Mermaid code in this document is the editable source for the diagram.
-
 # Functional Dependencies (FDs)
-
 A functional dependency `X → Y` means that X determines Y.
 
 | Table | Functional dependency |
@@ -359,7 +400,6 @@ A functional dependency `X → Y` means that X determines Y.
 | seller_ratings | `rating_id → all other rating columns` |
 
 # Normal Form Per Table
-
 All tables are expected to be in **3NF**. They are also expected to be in **BCNF** if the listed primary keys (and any confirmed candidate keys) are valid.
 
 | Table | Normal form | Reason |
@@ -380,8 +420,8 @@ This assessment is based on the proposed keys and columns. It should be confirme
 
 # Integrity-Check Results
 
-Run these checks after loading the data. Record the actual result returned by PostgreSQL.
-
+<!-- Run these checks after loading the data. Record the actual result returned by PostgreSQL. -->
+<!-- Need to do -->
 | Check | SQL condition | Result |
 |---|---|---|
 | Listing sold before posting | `sold_at < posted_at` where `sold_at IS NOT NULL` | PENDING |
@@ -391,43 +431,43 @@ Run these checks after loading the data. Record the actual result returned by Po
 | Rating seller differs from listing seller | `seller_ratings.seller_id <> listings.seller_id` | PENDING |
 | User rates themselves | `rater_id = seller_id` | PENDING |
 
-Example queries:
+<!-- Queries: -->
 
-```sql
+<!-- ```sql
 -- 1. Sold before posted
-SELECT COUNT(*)
-FROM olx.listings
-WHERE sold_at IS NOT NULL AND sold_at < posted_at;
+-- SELECT COUNT(*)
+-- FROM olx.listings
+-- WHERE sold_at IS NOT NULL AND sold_at < posted_at;
 
--- 2. Expires before or at posted time
-SELECT COUNT(*)
-FROM olx.listings
-WHERE expires_at <= posted_at;
+-- -- 2. Expires before or at posted time
+-- SELECT COUNT(*)
+-- FROM olx.listings
+-- WHERE expires_at <= posted_at;
 
--- 3. Buyer chats about their own listing
-SELECT COUNT(*)
-FROM olx.chat_threads ct
-JOIN olx.listings l ON l.listing_id = ct.listing_id
-WHERE ct.buyer_id = l.seller_id;
+-- -- 3. Buyer chats about their own listing
+-- SELECT COUNT(*)
+-- FROM olx.chat_threads ct
+-- JOIN olx.listings l ON l.listing_id = ct.listing_id
+-- WHERE ct.buyer_id = l.seller_id;
 
--- 4. Message sender is not a buyer or seller
-SELECT COUNT(*)
-FROM olx.chat_messages cm
-JOIN olx.chat_threads ct ON ct.thread_id = cm.thread_id
-JOIN olx.listings l ON l.listing_id = ct.listing_id
-WHERE cm.sender_id NOT IN (ct.buyer_id, l.seller_id);
+-- -- 4. Message sender is not a buyer or seller
+-- SELECT COUNT(*)
+-- FROM olx.chat_messages cm
+-- JOIN olx.chat_threads ct ON ct.thread_id = cm.thread_id
+-- JOIN olx.listings l ON l.listing_id = ct.listing_id
+-- WHERE cm.sender_id NOT IN (ct.buyer_id, l.seller_id);
 
--- 5. Rating seller does not match listing seller
-SELECT COUNT(*)
-FROM olx.seller_ratings sr
-JOIN olx.listings l ON l.listing_id = sr.listing_id
-WHERE sr.seller_id <> l.seller_id;
+-- -- 5. Rating seller does not match listing seller
+-- SELECT COUNT(*)
+-- FROM olx.seller_ratings sr
+-- JOIN olx.listings l ON l.listing_id = sr.listing_id
+-- WHERE sr.seller_id <> l.seller_id;
 
--- 6. User rates themselves
-SELECT COUNT(*)
-FROM olx.seller_ratings
-WHERE rater_id = seller_id;
-```
+-- -- 6. User rates themselves
+-- SELECT COUNT(*)
+-- FROM olx.seller_ratings
+-- WHERE rater_id = seller_id;
+-- ``` -->
 
 # Data Problems Found
 
@@ -439,4 +479,4 @@ WHERE rater_id = seller_id;
 | Possible seller mismatch in ratings | `seller_ratings.seller_id` should match the seller of the related listing. Check this with the integrity query above. |
 | Possible invalid chat participants | Basic foreign keys do not ensure that a message sender is the buyer or seller in that conversation. Check this with the integrity query above. |
 
-**Data inspection note:** The complete set of 11 CSV files has not been checked here. Therefore, the integrity results above are marked PENDING, and no additional data errors or zero-violation results are claimed. Update this section with every issue found when the full CSV data is inspected and loaded.
+**Note:** The complete set of 11 CSV files has not been checked. Therefore, the integrity results above are marked PENDING, and no additional data errors or zero-violation results are claimed. Need to test them soon. 
