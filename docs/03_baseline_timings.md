@@ -155,46 +155,50 @@ All times are in milliseconds. Each average is based on the three recorded runs.
 The total is the sum of the 30 average query times. It is not the total wall-clock time taken by the benchmark script.
 
 ## 7. What the results tell us
+The following table shows the scan types used by PostgreSQL and why each query performed the way it did.
 
-Query | Scan Type | Why is it fast or slow?
-R01 | Parallel Seq Scan on listings | Scans many listings to find matching records, making it moderately slow.
-R02 | Seq Scan on listings | Checks listings to find matching records; no suitable index is used.
-R03 | Seq Scan on listings | Scans a large number of listings to apply filters, increasing execution time.
-R04 | Index Scan on listings and users; Seq Scan on seller_ratings | Uses indexes to locate records quickly, resulting in very low execution time.
-R05 | Seq Scan on listings | Scans listings to find the required records, resulting in moderate execution time.
-R06 | Seq Scan on chat_threads, listings and chat_messages | Scans multiple large tables, making it one of the slower queries.
-R07 | Seq Scan on chat_messages; Index Scan on chat_threads and listings | Scans chat messages but uses indexes for related lookups, keeping execution time relatively low.
-R08 | Seq Scan on listings | Scans listings to apply the required conditions.
-R09 | Seq Scan on listings | Checks listings for matching records; execution time remains relatively low.
-R10 | Seq Scan on listings | Performs a table scan, but the query conditions are not very expensive.
-R11 | Seq Scan on reports; Index Scan on listings | Scans reports and uses an index to find related listings, resulting in fast execution.
-R12 | Seq Scan on listings | Processes a large number of listing records, resulting in higher execution time.
-R13 | Seq Scan on boost_packages and listings | Scans listings and boost packages to find matching records.
-R14 | Seq Scan on listings and categories | Scans both tables to retrieve the required information.
-R15 | Seq Scan on listings, offers and categories | Scans multiple tables and processes related records, increasing execution time.
-R16 | Seq Scan on listings and favourites | Scans listings and favourites to find matching records.
-R17 | Seq Scan on listings and categories | Scans listings and categories to retrieve the required results.
-R18 | Seq Scan on listings | Processes a large number of listings, resulting in higher execution time.
-R19 | Seq Scan on listings, chat_threads and chat_messages | Very slow because it repeatedly processes large tables through correlated subqueries.
-R20 | Seq Scan on listings | Scans listings to find the required records; execution time is relatively low.
-R21 | Seq Scan on seller_ratings and users | Scans both tables to retrieve the required information.
-R22 | Seq Scan on listings | Processes many listing records, resulting in moderate execution time.
-R23 | Index Scan on users_phone_key | Uses an index to locate a user directly using their phone number, making it extremely fast.
-R24 | Seq Scan on listings and categories | Scans both tables to find the required results.
-R25 | Seq Scan on chat_messages, chat_threads, listings and categories | Scans multiple tables and processes related chat and listing data, making it relatively slow.
-W01 | No scan | Simple INSERT operation; no table scan is required.
-W02 | Seq Scan on listings; Index Scan on listings primary key | Scans listings to identify matching records before performing the update.
-W03 | Index Scan on chat_threads primary key | Uses the primary-key index to locate the target record quickly.
-W04 | Seq Scan on listings | Scans listings to identify the records to update, making it the slowest write query.
-W05 | Seq Scan on offers | Scans offers to locate the records required for the write operation.
+| Query | Scan Type | Why is it fast or slow? |
+|---|---|---|
+| R01 | Parallel Seq Scan on listings | Scans many listings to find matching records, making it moderately slow. |
+| R02 | Seq Scan on listings | Checks listings to find matching records; no suitable index is used. |
+| R03 | Seq Scan on listings | Scans a large number of listings to apply filters, increasing execution time. |
+| R04 | Index Scan on listings and users; Seq Scan on seller_ratings | Uses indexes to locate records quickly, resulting in very low execution time. |
+| R05 | Seq Scan on listings | Scans listings to find the required records, resulting in moderate execution time. |
+| R06 | Seq Scan on chat_threads, listings and chat_messages | Scans multiple large tables, making it one of the slower queries. |
+| R07 | Seq Scan on chat_messages; Index Scan on chat_threads and listings | Scans chat messages but uses indexes for related lookups, keeping execution time relatively low. |
+| R08 | Seq Scan on listings | Scans listings to apply the required conditions. |
+| R09 | Seq Scan on listings | Checks listings for matching records; execution time remains relatively low. |
+| R10 | Seq Scan on listings | Performs a table scan, but the query conditions are not very expensive. |
+| R11 | Seq Scan on reports; Index Scan on listings | Scans reports and uses an index to find related listings, resulting in fast execution. |
+| R12 | Seq Scan on listings | Processes a large number of listing records, resulting in higher execution time. |
+| R13 | Seq Scan on boost_packages and listings | Scans listings and boost packages to find matching records. |
+| R14 | Seq Scan on listings and categories | Scans both tables to retrieve the required information. |
+| R15 | Seq Scan on listings, offers and categories | Scans multiple tables and processes related records, increasing execution time. |
+| R16 | Seq Scan on listings and favourites | Scans listings and favourites to find matching records. |
+| R17 | Seq Scan on listings and categories | Scans listings and categories to retrieve the required results. |
+| R18 | Seq Scan on listings | Processes a large number of listings, resulting in higher execution time. |
+| R19 | Seq Scan on listings, chat_threads and chat_messages | Very slow because it repeatedly processes large tables through correlated subqueries. |
+| R20 | Seq Scan on listings | Scans listings to find the required records; execution time is relatively low. |
+| R21 | Seq Scan on seller_ratings and users | Scans both tables to retrieve the required information. |
+| R22 | Seq Scan on listings | Processes many listing records, resulting in moderate execution time. |
+| R23 | Index Scan on users_phone_key | Uses an index to locate a user directly using their phone number, making it extremely fast. |
+| R24 | Seq Scan on listings and categories | Scans both tables to find the required results. |
+| R25 | Seq Scan on chat_messages, chat_threads, listings and categories | Scans multiple tables and processes related chat and listing data, making it relatively slow. |
+| W01 | No scan | Simple INSERT operation; no table scan is required. |
+| W02 | Seq Scan on listings; Index Scan on listings primary key | Scans listings to identify matching records before performing the update. |
+| W03 | Index Scan on chat_threads primary key | Uses the primary-key index to locate the target record quickly. |
+| W04 | Seq Scan on listings | Scans listings to identify the records to update, making it the slowest write query. |
+| W05 | Seq Scan on offers | Scans offers to locate the records required for the write operation. |
 
-## Main Findings
+### Key Findings
 
-1. R19 - Main bottleneck: Its average execution time is 1807.603 ms. Repeated processing of large tables makes it significantly slower than the other queries.
-2. R06 and R25: Both involve multiple large tables and sequential scans, resulting in higher execution times.
-3. R23 - Best performing read: Its index scan on users_phone_key allows PostgreSQL to find the record extremely quickly.
-4. W04 - Slowest write: Its sequential scan on listings increases the time required to identify records for updating.
-5. Sequential scans: These appear frequently because PostgreSQL reads table records to find matching data. They are not necessarily inefficient; their performance depends on table size and query conditions.
+1. **R19:** Slowest read query, with an average execution time of 1807.603 ms.
+2. **R06:** Second slowest read query, taking 93.452 ms on average.
+3. **R25:** Third slowest read query, taking 63.047 ms on average.
+4. **R23:** Fastest read query, taking only 0.025 ms because it uses an index scan.
+5. **W04:** Slowest write query, taking 16.829 ms on average.
+
+Sequential scans are common in this workload because PostgreSQL checks table records to find matching data. Index scans help locate specific records faster. However, a sequential scan is not always inefficient; it can be better when a large portion of a table needs to be read.
 
 Note: A query can use both sequential and index scans. The scan type alone does not determine performance; the amount of data processed and the query structure also matter.
 Sequential Scan =>    checks every row in the table to find matching records
