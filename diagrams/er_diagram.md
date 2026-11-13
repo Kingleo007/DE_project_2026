@@ -1,5 +1,6 @@
 # ER Diagrams
-<!-- it needs correction, need to add proper oval, rectangle for distinction -->
+<!-- it needs modification, need to convert it into Chen's Notation-->
+<!-- This is Crow's Foot Notation -->
 
 ## Diagram 1: Core Marketplace
 Shows users, cities, categories, listings and boost packages.
