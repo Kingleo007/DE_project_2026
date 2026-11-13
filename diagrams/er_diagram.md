@@ -1,4 +1,5 @@
 # ER Diagrams
+<!-- it needs correction, need to add proper oval, rectangle for distinction -->
 
 ## Diagram 1: Core Marketplace
 Shows users, cities, categories, listings and boost packages.
