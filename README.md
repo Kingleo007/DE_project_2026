@@ -746,5 +746,5 @@ SET status = CASE WHEN offer_id = (SELECT offer_id FROM offers WHERE listing_id 
                                    ORDER BY offer_price DESC, offer_id LIMIT 1)
                   THEN 'ACCEPTED' ELSE 'REJECTED' END,
     responded_at = '2026-07-01 12:00:00+05:30'
-WHERE listing_id = 118642 AND status = 'PENDING';
+WHERE listing_id = 118642 AND status = 'PENDING';.
 ```
