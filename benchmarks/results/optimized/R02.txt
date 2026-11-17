@@ -1,0 +1,65 @@
+=== R02 run 1 ===
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.046..0.047 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=11 read=2
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.028..0.035 rows=5.00 loops=1)
+        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+        Index Searches: 1
+        Buffers: shared hit=8 read=2
+Planning:
+  Buffers: shared hit=415
+Planning Time: 0.731 ms
+Execution Time: 0.059 ms
+=== R02 run 2 ===
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.032..0.033 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=13
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.015..0.021 rows=5.00 loops=1)
+        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+        Index Searches: 1
+        Buffers: shared hit=10
+Planning:
+  Buffers: shared hit=415
+Planning Time: 0.660 ms
+Execution Time: 0.045 ms
+=== R02 run 3 ===
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.031..0.031 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=13
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.013..0.020 rows=5.00 loops=1)
+        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+        Index Searches: 1
+        Buffers: shared hit=10
+Planning:
+  Buffers: shared hit=415
+Planning Time: 0.652 ms
+Execution Time: 0.044 ms
+=== R02 run 4 ===
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.029..0.030 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=13
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.013..0.020 rows=5.00 loops=1)
+        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+        Index Searches: 1
+        Buffers: shared hit=10
+Planning:
+  Buffers: shared hit=415
+Planning Time: 0.620 ms
+Execution Time: 0.042 ms
+=== R02 run 5 ===
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.032..0.032 rows=5.00 loops=1)
+  Sort Key: price
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=13
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.015..0.021 rows=5.00 loops=1)
+        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
+        Index Searches: 1
+        Buffers: shared hit=10
+Planning:
+  Buffers: shared hit=415
+Planning Time: 0.653 ms
+Execution Time: 0.045 ms

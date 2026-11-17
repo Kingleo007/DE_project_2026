@@ -345,3 +345,8 @@ WHERE listing_id = 118642 AND status = 'PENDING';
 
 -- @END
 ROLLBACK;
+
+
+-- then run
+-- psql -U karun -d karun -v ON_ERROR_STOP=1 -f sql/05_indexes.sql
+-- ./benchmarks/run_benchmark.sh karun optimized 5 sql/06_optimized_queries.sql
