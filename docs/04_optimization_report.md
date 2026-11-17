@@ -1,60 +1,57 @@
-# Phase 4 — Query Optimization Report
+# Query Optimization Report
 
 ## Benchmark setup
-
-The comparison uses the committed baseline on the 120,000-listing seed dataset and the optimized benchmark run recorded under `benchmarks/results/optimized/`. Baseline timings average three runs; optimized timings average five runs, as required by the Phase 4 command. All measurements are milliseconds from the same database run (`karun`) on PostgreSQL 18.6, as recorded for the project. The optimized benchmark was run with `sql/06_optimized_queries.sql` after applying `sql/05_indexes.sql`.
-
-The first five timing columns below preserve the Phase 3 run-by-run values. The `After` value is the five-run optimized average from `summary.csv`.
+The optimized benchmark used `sql/06_optimized_queries.sql` after applying `sql/05_indexes.sql`.
 
 ## Combined timing and optimization table
 
-| Query | Type | Before run 1 | Before run 2 | Before run 3 | Before avg | Problem in baseline plan | Optimization applied | After avg (5 runs) | Improvement | Same result? |
-|---|---|---:|---:|---:|---:|---|---|---:|---:|---|
-| R01 | READ | 10.553 | 8.655 | 8.564 | 9.257 | Sequential scan of listings | Partial B-tree on active category, city, and price | 0.425 | 95.4% (21.8×) | Needs equivalence proof |
-| R02 | READ | 6.952 | 6.194 | 5.874 | 6.340 | Sequential scan; JSON filters applied row by row | Partial expression index on car fuel, year, and kilometres | 0.047 | 99.3% (134.9×) | Needs equivalence proof |
-| R03 | READ | 19.094 | 19.215 | 18.952 | 19.087 | Sequential scan for leading-wildcard `ILIKE` | Partial trigram GIN on active titles; active price B-tree for ordering | 0.717 | 96.2% (26.6×) | Needs equivalence proof |
-| R04 | READ | 0.377 | 0.370 | 0.363 | 0.370 | Rating rows scanned to calculate seller average | Covering index on ratings by seller including stars | 0.198 | 46.5% (1.9×) | Needs equivalence proof |
-| R05 | READ | 7.672 | 7.487 | 7.521 | 7.560 | Sequential scan of listings for seller 1042 | Covering index on seller, status, and listing ID | 0.069 | 99.1% (109.6×) | Needs equivalence proof |
-| R06 | READ | 95.318 | 97.732 | 87.306 | 93.452 | Sequential scans of threads, listings, and messages; OR spans buyer/seller | UNION of buyer and seller thread paths; indexed latest-message lookup | 0.327 | 99.7% (285.8×) | Needs equivalence proof |
-| R07 | READ | 6.166 | 8.855 | 6.142 | 7.054 | Scans unread messages before narrowing to the user's conversations | UNION of user threads, then partial index for unread messages | 0.093 | 98.7% (75.8×) | Needs equivalence proof |
-| R08 | READ | 6.461 | 7.049 | 6.159 | 6.556 | Sequential scan for category/model/date filters | B-tree expression index on category and model with posted time | 1.461 | 77.7% (4.5×) | Needs equivalence proof |
-| R09 | READ | 6.666 | 7.222 | 6.759 | 6.882 | Sequential scan for active furniture in the coordinate box | Partial coordinate indexes; plan used the longitude index | 0.121 | 98.2% (56.9×) | Needs equivalence proof |
-| R10 | READ | 6.006 | 6.358 | 5.873 | 6.079 | Sequential scan for active ads in an expiry range | Partial B-tree on expiry time for active ads | 0.165 | 97.3% (36.8×) | Needs equivalence proof |
-| R11 | READ | 2.034 | 2.003 | 1.984 | 2.007 | Sequential scan of reports; join occurs before report aggregation | Partial covering index on open reports; aggregate before joining titles | 1.011 | 49.6% (2.0×) | Needs equivalence proof |
-| R12 | READ | 34.553 | 34.066 | 35.909 | 34.843 | Full-table grouping by seller and posting date | Kept sequential scan; query must group all listings and the plan still chose a scan | 52.566 | -50.9% (0.7×) | Needs equivalence proof |
-| R13 | READ | 13.942 | 14.103 | 14.357 | 14.134 | `NOT IN` returns no rows when its subquery contains NULL package IDs | Replaced with `NOT EXISTS`; full scan remains reasonable for the small package table | 10.372 | 26.6% (1.4×) | Intentional correction: original NULL bug fixed |
-| R14 | READ | 9.456 | 9.892 | 9.377 | 9.575 | Year extracted from every `sold_at` value | Replaced `EXTRACT(YEAR...)` with a 2026 timestamp range and partial sold-date index | 6.801 | 29.0% (1.4×) | Needs equivalence proof |
-| R15 | READ | 11.723 | 11.487 | 11.129 | 11.446 | Broad aggregation scans offers and listings | Kept scans; query aggregates most offer rows, so index access was not chosen | 11.379 | 0.6% (1.0×) | Unchanged SQL; verify in proof run |
-| R16 | READ | 11.883 | 11.665 | 11.735 | 11.761 | Scans favourites and listings for recent saves | B-tree on save time and listing ID; aggregate favourites before joining active ads | 3.562 | 69.7% (3.3×) | Needs equivalence proof |
-| R17 | READ | 13.155 | 12.207 | 12.152 | 12.505 | Broad grouped average over listings | Kept sequential aggregation; most listing rows contribute | 12.122 | 3.1% (1.0×) | Unchanged SQL; verify in proof run |
-| R18 | READ | 35.030 | 34.361 | 34.449 | 34.613 | Full-table duplicate grouping by seller, title, and price | Added composite grouping index; planner still chose sequential scan | 34.089 | 1.5% (1.0×) | Unchanged SQL; verify in proof run |
-| R19 | READ | 1841.215 | 1750.793 | 1830.801 | 1807.603 | Correlated count and latest-message subqueries repeatedly visit chat tables | Replaced with LEFT JOIN aggregation and `COUNT(DISTINCT thread_id)`; indexes on threads/messages | 1.059 | 99.9% (1706.0×) | Needs equivalence proof |
-| R20 | READ | 7.867 | 7.565 | 7.894 | 7.775 | `posted_at::date` prevents a direct timestamp range scan | Replaced date predicate with June timestamp boundaries; retained local-date grouping | 0.926 | 88.1% (8.4×) | Needs equivalence proof |
-| R21 | READ | 8.493 | 8.536 | 8.323 | 8.451 | Full rating aggregation before user lookup | Aggregate and limit top 20 sellers before joining user names | 2.349 | 72.2% (3.6×) | Needs equivalence proof |
-| R22 | READ | 16.833 | 21.014 | 15.900 | 17.916 | Sequential scan and discard 50,000 rows for OFFSET pagination | Keyset seek from the verified page-2,000 boundary; descending covering index | 0.059 | 99.7% (303.7×) | Cursor matches seed CSV; SQL equivalence proof pending |
-| R23 | READ | 0.024 | 0.026 | 0.024 | 0.025 | Already uses unique phone index | No rewrite; existing unique phone index handles lookup | 0.084 | -236.0% (3.4× slower) | Unchanged SQL; likely timing variance; verify |
-| R24 | READ | 11.397 | 11.549 | 11.373 | 11.440 | Sequential scan of active ads before category rollup | Active partial index can feed the category count | 4.641 | 59.4% (2.5×) | Unchanged SQL; verify in proof run |
-| R25 | READ | 77.406 | 55.652 | 56.083 | 63.047 | Full scans and aggregation over messages, threads, and listings | Existing message/thread indexes were not selected for this broad aggregation | 55.037 | 12.7% (1.1×) | Unchanged SQL; verify in proof run |
-| W01 | WRITE | 0.632 | 0.556 | 0.561 | 0.583 | Insert has no lookup scan | Index maintenance adds work to listing insert | 1.348 | -131.2% (2.3× slower) | Same write; benchmark rolls it back |
-| W02 | WRITE | 9.446 | 9.031 | 8.970 | 9.149 | Sequential scan to find seller's oldest active listing | Seller/status/listing index finds target directly | 0.403 | 95.6% (22.7×) | Same write; benchmark rolls it back |
-| W03 | WRITE | 0.492 | 0.482 | 0.477 | 0.484 | Primary-key lookup for most recent buyer thread | Buyer/thread index supports lookup; added index maintenance is small | 0.545 | -12.6% (1.1× slower) | Same write; benchmark rolls it back |
-| W04 | WRITE | 16.488 | 16.734 | 17.264 | 16.829 | Sequential scan to locate expired active ads | Partial expiry index narrows target rows; updating status still costs time | 29.932 | -77.9% (1.8× slower) | Same update; benchmark rolls it back |
-| W05 | WRITE | 1.272 | 1.216 | 1.196 | 1.228 | Sequential scan to find pending offers for one listing | Composite listing/status/price index finds offers and top offer | 0.417 | 66.0% (2.9×) | Same update; benchmark rolls it back |
-| **Total of averages** | | | | | **2238.051** | | | **232.325** | **89.6% lower (9.6×)** | |
+| Query | Type | Before avg | Problem in baseline plan | Optimization applied (plain language) | Optimized run 1 | Optimized run 2 | Optimized run 3 | Optimized avg | Improvement | Same result? |
+|---|---|---:|---|---|---:|---:|---:|---:|---:|---|
+| R01 | READ | 9.257 | Scans all listings | Added an index for active ads by category, city, and price | 0.409 | 0.367 | 0.329 | 0.368 | 96.0% | Needs proof |
+| R02 | READ | 6.340 | Scans all listings and checks car details one by one | Added an index for the car filters | 0.049 | 0.041 | 0.048 | 0.046 | 99.3% | Needs proof |
+| R03 | READ | 19.087 | Scans all titles for the text match | Added a text-search index for active ads and a price index | 0.780 | 0.714 | 0.690 | 0.728 | 96.2% | Needs proof |
+| R04 | READ | 0.370 | Scans seller ratings to get the average | Added an index with seller IDs and rating stars | 0.125 | 0.081 | 0.074 | 0.093 | 74.8% | Needs proof |
+| R05 | READ | 7.560 | Scans all listings for this seller | Added an index for seller, status, and listing ID | 0.058 | 0.067 | 0.072 | 0.066 | 99.1% | Needs proof |
+| R06 | READ | 93.452 | Scans chats, listings, and messages | Looks up buyer and seller chats separately, then finds each latest message | 0.199 | 0.158 | 0.153 | 0.170 | 99.8% | Needs proof |
+| R07 | READ | 7.054 | Scans messages before finding the user's chats | Finds the user's chats first, then checks unread messages in them | 0.094 | 0.098 | 0.092 | 0.095 | 98.7% | Needs proof |
+| R08 | READ | 6.556 | Scans listings for category, model, and date | Added an index for category, model, and posting time | 1.404 | 1.353 | 1.463 | 1.407 | 78.5% | Needs proof |
+| R09 | READ | 6.882 | Scans listings for nearby furniture | Added coordinate indexes for active furniture | 0.109 | 0.109 | 0.108 | 0.109 | 98.4% | Needs proof |
+| R10 | READ | 6.079 | Scans active listings for expiry dates | Added an index on expiry time for active listings | 0.173 | 0.155 | 0.155 | 0.161 | 97.4% | Needs proof |
+| R11 | READ | 2.007 | Scans all reports before joining listing titles | Counts open reports first, then looks up listing titles | 0.437 | 0.420 | 0.432 | 0.430 | 78.6% | Needs proof |
+| R12 | READ | 34.843 | Must group every listing by seller and day | Kept the full scan because every listing is needed for this report | 52.561 | 52.910 | 53.163 | 52.878 | -51.8% | Needs proof |
+| R13 | READ | 14.134 | `NOT IN` gives no rows when listing package IDs contain NULL | Used `NOT EXISTS` so unused packages are found correctly | 10.241 | 10.429 | 10.793 | 10.488 | 25.8% | Intentional NULL bug fix |
+| R14 | READ | 9.575 | Extracts the year from every sale timestamp | Filters sales with a 2026 date range and an index | 6.792 | 6.661 | 6.631 | 6.695 | 30.1% | Needs proof |
+| R15 | READ | 11.446 | Scans and groups most offers and listings | Kept the broad scan; most rows are used in this report | 11.731 | 10.756 | 10.905 | 11.131 | 2.8% | Same SQL; verify |
+| R16 | READ | 11.761 | Scans favourites and listings for recent saves | Counts recent saves first, then joins active listings | 3.387 | 3.313 | 3.296 | 3.332 | 71.7% | Needs proof |
+| R17 | READ | 12.505 | Groups views across nearly all listings | Kept the broad scan because most listings are included | 11.512 | 11.860 | 12.060 | 11.811 | 5.6% | Same SQL; verify |
+| R18 | READ | 34.613 | Groups all listings to find duplicates | Added an index for seller, title, and price; planner still scans the table | 36.968 | 34.043 | 34.469 | 35.160 | -1.6% | Same SQL; verify |
+| R19 | READ | 1807.603 | Repeats chat counts and latest-message lookups for each listing | Joins chats and messages once, then counts chats and finds the latest time | 0.919 | 0.907 | 0.934 | 0.920 | 99.9% | Needs proof |
+| R20 | READ | 7.775 | Converts every posting timestamp to a date before filtering | Filters June by timestamp range and keeps the same day grouping | 0.845 | 0.936 | 0.998 | 0.926 | 88.1% | Needs proof |
+| R21 | READ | 8.451 | Joins user names before ranking sellers | Ranks the top sellers first, then looks up their names | 2.100 | 2.090 | 2.104 | 2.098 | 75.2% | Needs proof |
+| R22 | READ | 17.916 | Skips 50,000 rows to reach page 2,001 | Starts from the verified end of page 2,000 and reads the next 25 | 0.056 | 0.057 | 0.038 | 0.050 | 99.7% | Cursor checked; proof pending |
+| R23 | READ | 0.025 | Already uses the phone-number index | No query change; kept the existing phone index | 0.023 | 0.022 | 0.022 | 0.022 | 10.7% | Same SQL; verify |
+| R24 | READ | 11.440 | Scans active listings before counting by category | Uses the active-listing index for the category count | 1.982 | 3.530 | 4.424 | 3.312 | 71.0% | Same SQL; verify |
+| R25 | READ | 63.047 | Reads and groups messages across many chats | Kept the query; the plan still scans the broad message history | 56.474 | 54.185 | 48.294 | 52.984 | 16.0% | Same SQL; verify |
+| W01 | WRITE | 0.583 | Insert touches no rows to find | Indexes add work when a new listing is inserted | 1.144 | 1.081 | 1.154 | 1.126 | -93.2% | Same write; rolled back |
+| W02 | WRITE | 9.149 | Scans listings to find the seller's oldest active ad | Uses the seller/status index to find the ad | 0.307 | 0.242 | 0.253 | 0.267 | 97.1% | Same write; rolled back |
+| W03 | WRITE | 0.484 | Uses the primary-key index to find the buyer's latest chat | Uses the buyer/thread index; added cost is small | 0.367 | 0.356 | 0.357 | 0.360 | 25.6% | Same write; rolled back |
+| W04 | WRITE | 16.829 | Scans all listings to find expired active ads | Uses the expiry index, but updating many rows still takes time | 95.536 | 34.931 | 27.597 | 52.688 | -213.1% | Same update; rolled back |
+| W05 | WRITE | 1.228 | Scans offers to find pending offers for one listing | Uses an index to find pending offers and the highest price | 0.248 | 0.179 | 0.215 | 0.214 | 82.6% | Same update; rolled back |
+| **Total of averages** | | **2238.051** | | | | | | **250.135** | **88.8% lower (8.9×)** | |
 
-Improvement is `(before average − after average) / before average × 100`. Negative values mean the optimized run was slower. The total compares the sum of per-query averages, not benchmark wall-clock time. The optimized run used five samples while the baseline used three.
+Improvement is `(before average − optimized average) / before average × 100`. Negative values mean the optimized query was slower. Each optimized run shown is itself an average of five executions; `Optimized avg` averages the three benchmark runs. The total is the sum of query averages, not total wall-clock time.
 
 ## Main findings
 
-- R19 improved from 1,807.603 ms to 1.059 ms after eliminating the repeated correlated work and using indexes for chat lookup.
+- R19 improved from 1,807.603 ms to an average of 0.920 ms after eliminating the repeated correlated work and using indexes for chat lookup.
 - R06, R07, R02, R05, and R22 also fell below 0.4 ms in this run.
 - R12 and R25 still read and aggregate broad portions of the dataset. Their sequential scans were not automatically a defect at this scale.
-- W01, W03, and W04 became slower. W04 increased by 13.103 ms per run on average; the expiry index narrows candidate rows, but each status update must still write the affected rows and maintain indexes. The observed increase is material for a batch job and should be considered again on the large dataset.
+- W01 and W04 became slower. W04 increased by 35.859 ms per run on average; the expiry index narrows candidate rows, but each status update must still write the affected rows and maintain indexes. This increase is material for a batch job and should be investigated on the large dataset. W03 was slightly faster in the three optimized runs.
 - R13 fixes a correctness bug: because some listings have `boost_package_id IS NULL`, `NOT IN` evaluates to unknown and the original query returns no packages. `NOT EXISTS` returns packages with no matching listing. This is an intentional correction, so the result is not byte-for-byte equal to the original wrong answer.
 
 ## Before/after plans for the five largest improvements
 
-Each link contains the full raw plans for all recorded runs.
+Each link contains the raw plans saved by the most recent benchmark invocation. Earlier optimized invocations were printed in the supplied terminal output, but the script replaced the plan files each time.
 
 | Query | Before plan | After plan | Change observed |
 |---|---|---|---|

@@ -1,77 +1,77 @@
 === R06 run 1 ===
-Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.999..1.001 rows=13.00 loops=1)
+Sort  (cost=58.12..58.12 rows=3 width=50) (actual time=0.142..0.143 rows=13.00 loops=1)
   Sort Key: m.sent_at DESC
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=82 read=37 dirtied=1
-  ->  Nested Loop  (cost=30.50..62.08 rows=3 width=50) (actual time=0.205..0.988 rows=13.00 loops=1)
-        Buffers: shared hit=79 read=37 dirtied=1
-        ->  Nested Loop  (cost=30.08..54.74 rows=3 width=21) (actual time=0.165..0.889 rows=13.00 loops=1)
-              Buffers: shared hit=60 read=16 dirtied=1
-              ->  Unique  (cost=29.79..29.81 rows=3 width=8) (actual time=0.054..0.057 rows=13.00 loops=1)
-                    Buffers: shared hit=26 read=9
-                    ->  Sort  (cost=29.79..29.79 rows=3 width=8) (actual time=0.054..0.055 rows=13.00 loops=1)
+  Buffers: shared hit=124
+  ->  Nested Loop  (cost=26.50..58.09 rows=3 width=50) (actual time=0.076..0.132 rows=13.00 loops=1)
+        Buffers: shared hit=121
+        ->  Nested Loop  (cost=26.08..50.75 rows=3 width=21) (actual time=0.045..0.072 rows=13.00 loops=1)
+              Buffers: shared hit=76
+              ->  Unique  (cost=25.79..25.81 rows=3 width=8) (actual time=0.039..0.041 rows=13.00 loops=1)
+                    Buffers: shared hit=35
+                    ->  Sort  (cost=25.79..25.80 rows=3 width=8) (actual time=0.039..0.040 rows=13.00 loops=1)
                           Sort Key: t.thread_id, t.listing_id
                           Sort Method: quicksort  Memory: 25kB
-                          Buffers: shared hit=26 read=9
-                          ->  Append  (cost=0.29..29.76 rows=3 width=8) (actual time=0.007..0.049 rows=13.00 loops=1)
-                                Buffers: shared hit=23 read=9
-                                ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.007..0.007 rows=3.00 loops=1)
+                          Buffers: shared hit=35
+                          ->  Append  (cost=0.29..25.77 rows=3 width=8) (actual time=0.004..0.034 rows=13.00 loops=1)
+                                Buffers: shared hit=32
+                                ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.004..0.004 rows=3.00 loops=1)
                                       Index Cond: (buyer_id = 1042)
                                       Heap Fetches: 0
                                       Index Searches: 1
-                                      Buffers: shared hit=1 read=2
-                                ->  Nested Loop  (cost=0.71..25.42 rows=1 width=8) (actual time=0.013..0.041 rows=10.00 loops=1)
-                                      Buffers: shared hit=22 read=7
-                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..12.47 rows=3 width=4) (actual time=0.008..0.018 rows=9.00 loops=1)
+                                      Buffers: shared hit=3
+                                ->  Nested Loop  (cost=0.71..21.43 rows=1 width=8) (actual time=0.010..0.029 rows=10.00 loops=1)
+                                      Buffers: shared hit=29
+                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..8.47 rows=3 width=4) (actual time=0.007..0.016 rows=9.00 loops=1)
                                             Index Cond: (seller_id = 1042)
                                             Heap Fetches: 6
                                             Index Searches: 1
                                             Buffers: shared hit=10
-                                      ->  Index Only Scan using idx_chat_threads_listing on chat_threads t_1  (cost=0.29..4.31 rows=1 width=8) (actual time=0.002..0.002 rows=1.11 loops=9)
+                                      ->  Index Only Scan using idx_chat_threads_listing on chat_threads t_1  (cost=0.29..4.31 rows=1 width=8) (actual time=0.001..0.001 rows=1.11 loops=9)
                                             Index Cond: (listing_id = l_1.listing_id)
                                             Heap Fetches: 0
                                             Index Searches: 9
-                                            Buffers: shared hit=12 read=7
-              ->  Index Scan using listings_pkey on listings l  (cost=0.29..8.31 rows=1 width=21) (actual time=0.063..0.063 rows=1.00 loops=13)
+                                            Buffers: shared hit=19
+              ->  Index Scan using listings_pkey on listings l  (cost=0.29..8.31 rows=1 width=21) (actual time=0.002..0.002 rows=1.00 loops=13)
                     Index Cond: (listing_id = t.listing_id)
                     Index Searches: 13
-                    Buffers: shared hit=33 read=7
-        ->  Limit  (cost=0.42..2.44 rows=1 width=29) (actual time=0.007..0.007 rows=1.00 loops=13)
-              Buffers: shared hit=19 read=21
-              ->  Index Only Scan using idx_chat_messages_thread_latest on chat_messages m  (cost=0.42..8.49 rows=4 width=29) (actual time=0.007..0.007 rows=1.00 loops=13)
+                    Buffers: shared hit=40
+        ->  Limit  (cost=0.42..2.44 rows=1 width=29) (actual time=0.004..0.004 rows=1.00 loops=13)
+              Buffers: shared hit=45
+              ->  Index Only Scan using idx_chat_messages_thread_latest on chat_messages m  (cost=0.42..8.49 rows=4 width=29) (actual time=0.004..0.004 rows=1.00 loops=13)
                     Index Cond: (thread_id = t.thread_id)
-                    Heap Fetches: 0
+                    Heap Fetches: 5
                     Index Searches: 13
-                    Buffers: shared hit=19 read=21
+                    Buffers: shared hit=45
 Planning:
-  Buffers: shared hit=539 read=11 dirtied=1
-Planning Time: 1.594 ms
-Execution Time: 1.032 ms
+  Buffers: shared hit=544
+Planning Time: 1.024 ms
+Execution Time: 0.174 ms
 === R06 run 2 ===
-Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.120..0.121 rows=13.00 loops=1)
+Sort  (cost=58.12..58.12 rows=3 width=50) (actual time=0.120..0.121 rows=13.00 loops=1)
   Sort Key: m.sent_at DESC
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=117
-  ->  Nested Loop  (cost=30.50..62.08 rows=3 width=50) (actual time=0.067..0.111 rows=13.00 loops=1)
+  ->  Nested Loop  (cost=26.50..58.09 rows=3 width=50) (actual time=0.067..0.109 rows=13.00 loops=1)
         Buffers: shared hit=114
-        ->  Nested Loop  (cost=30.08..54.74 rows=3 width=21) (actual time=0.044..0.065 rows=13.00 loops=1)
+        ->  Nested Loop  (cost=26.08..50.75 rows=3 width=21) (actual time=0.042..0.062 rows=13.00 loops=1)
               Buffers: shared hit=74
-              ->  Unique  (cost=29.79..29.81 rows=3 width=8) (actual time=0.038..0.040 rows=13.00 loops=1)
+              ->  Unique  (cost=25.79..25.81 rows=3 width=8) (actual time=0.037..0.039 rows=13.00 loops=1)
                     Buffers: shared hit=35
-                    ->  Sort  (cost=29.79..29.79 rows=3 width=8) (actual time=0.038..0.039 rows=13.00 loops=1)
+                    ->  Sort  (cost=25.79..25.80 rows=3 width=8) (actual time=0.037..0.038 rows=13.00 loops=1)
                           Sort Key: t.thread_id, t.listing_id
                           Sort Method: quicksort  Memory: 25kB
                           Buffers: shared hit=35
-                          ->  Append  (cost=0.29..29.76 rows=3 width=8) (actual time=0.003..0.033 rows=13.00 loops=1)
+                          ->  Append  (cost=0.29..25.77 rows=3 width=8) (actual time=0.003..0.032 rows=13.00 loops=1)
                                 Buffers: shared hit=32
                                 ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.003..0.003 rows=3.00 loops=1)
                                       Index Cond: (buyer_id = 1042)
                                       Heap Fetches: 0
                                       Index Searches: 1
                                       Buffers: shared hit=3
-                                ->  Nested Loop  (cost=0.71..25.42 rows=1 width=8) (actual time=0.010..0.029 rows=10.00 loops=1)
+                                ->  Nested Loop  (cost=0.71..21.43 rows=1 width=8) (actual time=0.010..0.028 rows=10.00 loops=1)
                                       Buffers: shared hit=29
-                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..12.47 rows=3 width=4) (actual time=0.007..0.015 rows=9.00 loops=1)
+                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..8.47 rows=3 width=4) (actual time=0.007..0.015 rows=9.00 loops=1)
                                             Index Cond: (seller_id = 1042)
                                             Heap Fetches: 6
                                             Index Searches: 1
@@ -94,33 +94,131 @@ Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.120..0.121 rows=13.00 l
                     Buffers: shared hit=40
 Planning:
   Buffers: shared hit=543
-Planning Time: 0.909 ms
-Execution Time: 0.149 ms
+Planning Time: 0.884 ms
+Execution Time: 0.148 ms
 === R06 run 3 ===
-Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.124..0.125 rows=13.00 loops=1)
+Sort  (cost=58.12..58.12 rows=3 width=50) (actual time=0.121..0.121 rows=13.00 loops=1)
   Sort Key: m.sent_at DESC
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=117
-  ->  Nested Loop  (cost=30.50..62.08 rows=3 width=50) (actual time=0.069..0.115 rows=13.00 loops=1)
+  ->  Nested Loop  (cost=26.50..58.09 rows=3 width=50) (actual time=0.065..0.109 rows=13.00 loops=1)
         Buffers: shared hit=114
-        ->  Nested Loop  (cost=30.08..54.74 rows=3 width=21) (actual time=0.045..0.067 rows=13.00 loops=1)
+        ->  Nested Loop  (cost=26.08..50.75 rows=3 width=21) (actual time=0.042..0.063 rows=13.00 loops=1)
               Buffers: shared hit=74
-              ->  Unique  (cost=29.79..29.81 rows=3 width=8) (actual time=0.040..0.042 rows=13.00 loops=1)
+              ->  Unique  (cost=25.79..25.81 rows=3 width=8) (actual time=0.037..0.038 rows=13.00 loops=1)
                     Buffers: shared hit=35
-                    ->  Sort  (cost=29.79..29.79 rows=3 width=8) (actual time=0.040..0.040 rows=13.00 loops=1)
+                    ->  Sort  (cost=25.79..25.80 rows=3 width=8) (actual time=0.037..0.037 rows=13.00 loops=1)
                           Sort Key: t.thread_id, t.listing_id
                           Sort Method: quicksort  Memory: 25kB
                           Buffers: shared hit=35
-                          ->  Append  (cost=0.29..29.76 rows=3 width=8) (actual time=0.003..0.035 rows=13.00 loops=1)
+                          ->  Append  (cost=0.29..25.77 rows=3 width=8) (actual time=0.003..0.032 rows=13.00 loops=1)
                                 Buffers: shared hit=32
                                 ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.003..0.003 rows=3.00 loops=1)
                                       Index Cond: (buyer_id = 1042)
                                       Heap Fetches: 0
                                       Index Searches: 1
                                       Buffers: shared hit=3
-                                ->  Nested Loop  (cost=0.71..25.42 rows=1 width=8) (actual time=0.011..0.031 rows=10.00 loops=1)
+                                ->  Nested Loop  (cost=0.71..21.43 rows=1 width=8) (actual time=0.010..0.028 rows=10.00 loops=1)
                                       Buffers: shared hit=29
-                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..12.47 rows=3 width=4) (actual time=0.007..0.016 rows=9.00 loops=1)
+                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..8.47 rows=3 width=4) (actual time=0.007..0.014 rows=9.00 loops=1)
+                                            Index Cond: (seller_id = 1042)
+                                            Heap Fetches: 6
+                                            Index Searches: 1
+                                            Buffers: shared hit=10
+                                      ->  Index Only Scan using idx_chat_threads_listing on chat_threads t_1  (cost=0.29..4.31 rows=1 width=8) (actual time=0.001..0.001 rows=1.11 loops=9)
+                                            Index Cond: (listing_id = l_1.listing_id)
+                                            Heap Fetches: 0
+                                            Index Searches: 9
+                                            Buffers: shared hit=19
+              ->  Index Scan using listings_pkey on listings l  (cost=0.29..8.31 rows=1 width=21) (actual time=0.002..0.002 rows=1.00 loops=13)
+                    Index Cond: (listing_id = t.listing_id)
+                    Index Searches: 13
+                    Buffers: shared hit=39
+        ->  Limit  (cost=0.42..2.44 rows=1 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
+              Buffers: shared hit=40
+              ->  Index Only Scan using idx_chat_messages_thread_latest on chat_messages m  (cost=0.42..8.49 rows=4 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
+                    Index Cond: (thread_id = t.thread_id)
+                    Heap Fetches: 0
+                    Index Searches: 13
+                    Buffers: shared hit=40
+Planning:
+  Buffers: shared hit=543
+Planning Time: 0.928 ms
+Execution Time: 0.150 ms
+=== R06 run 4 ===
+Sort  (cost=58.12..58.12 rows=3 width=50) (actual time=0.114..0.115 rows=13.00 loops=1)
+  Sort Key: m.sent_at DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=117
+  ->  Nested Loop  (cost=26.50..58.09 rows=3 width=50) (actual time=0.063..0.106 rows=13.00 loops=1)
+        Buffers: shared hit=114
+        ->  Nested Loop  (cost=26.08..50.75 rows=3 width=21) (actual time=0.040..0.060 rows=13.00 loops=1)
+              Buffers: shared hit=74
+              ->  Unique  (cost=25.79..25.81 rows=3 width=8) (actual time=0.036..0.037 rows=13.00 loops=1)
+                    Buffers: shared hit=35
+                    ->  Sort  (cost=25.79..25.80 rows=3 width=8) (actual time=0.036..0.036 rows=13.00 loops=1)
+                          Sort Key: t.thread_id, t.listing_id
+                          Sort Method: quicksort  Memory: 25kB
+                          Buffers: shared hit=35
+                          ->  Append  (cost=0.29..25.77 rows=3 width=8) (actual time=0.004..0.031 rows=13.00 loops=1)
+                                Buffers: shared hit=32
+                                ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.003..0.004 rows=3.00 loops=1)
+                                      Index Cond: (buyer_id = 1042)
+                                      Heap Fetches: 0
+                                      Index Searches: 1
+                                      Buffers: shared hit=3
+                                ->  Nested Loop  (cost=0.71..21.43 rows=1 width=8) (actual time=0.010..0.026 rows=10.00 loops=1)
+                                      Buffers: shared hit=29
+                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..8.47 rows=3 width=4) (actual time=0.006..0.014 rows=9.00 loops=1)
+                                            Index Cond: (seller_id = 1042)
+                                            Heap Fetches: 6
+                                            Index Searches: 1
+                                            Buffers: shared hit=10
+                                      ->  Index Only Scan using idx_chat_threads_listing on chat_threads t_1  (cost=0.29..4.31 rows=1 width=8) (actual time=0.001..0.001 rows=1.11 loops=9)
+                                            Index Cond: (listing_id = l_1.listing_id)
+                                            Heap Fetches: 0
+                                            Index Searches: 9
+                                            Buffers: shared hit=19
+              ->  Index Scan using listings_pkey on listings l  (cost=0.29..8.31 rows=1 width=21) (actual time=0.002..0.002 rows=1.00 loops=13)
+                    Index Cond: (listing_id = t.listing_id)
+                    Index Searches: 13
+                    Buffers: shared hit=39
+        ->  Limit  (cost=0.42..2.44 rows=1 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
+              Buffers: shared hit=40
+              ->  Index Only Scan using idx_chat_messages_thread_latest on chat_messages m  (cost=0.42..8.49 rows=4 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
+                    Index Cond: (thread_id = t.thread_id)
+                    Heap Fetches: 0
+                    Index Searches: 13
+                    Buffers: shared hit=40
+Planning:
+  Buffers: shared hit=543
+Planning Time: 0.892 ms
+Execution Time: 0.142 ms
+=== R06 run 5 ===
+Sort  (cost=58.12..58.12 rows=3 width=50) (actual time=0.123..0.124 rows=13.00 loops=1)
+  Sort Key: m.sent_at DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=117
+  ->  Nested Loop  (cost=26.50..58.09 rows=3 width=50) (actual time=0.072..0.115 rows=13.00 loops=1)
+        Buffers: shared hit=114
+        ->  Nested Loop  (cost=26.08..50.75 rows=3 width=21) (actual time=0.041..0.062 rows=13.00 loops=1)
+              Buffers: shared hit=74
+              ->  Unique  (cost=25.79..25.81 rows=3 width=8) (actual time=0.037..0.038 rows=13.00 loops=1)
+                    Buffers: shared hit=35
+                    ->  Sort  (cost=25.79..25.80 rows=3 width=8) (actual time=0.036..0.037 rows=13.00 loops=1)
+                          Sort Key: t.thread_id, t.listing_id
+                          Sort Method: quicksort  Memory: 25kB
+                          Buffers: shared hit=35
+                          ->  Append  (cost=0.29..25.77 rows=3 width=8) (actual time=0.003..0.031 rows=13.00 loops=1)
+                                Buffers: shared hit=32
+                                ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.003..0.003 rows=3.00 loops=1)
+                                      Index Cond: (buyer_id = 1042)
+                                      Heap Fetches: 0
+                                      Index Searches: 1
+                                      Buffers: shared hit=3
+                                ->  Nested Loop  (cost=0.71..21.43 rows=1 width=8) (actual time=0.010..0.027 rows=10.00 loops=1)
+                                      Buffers: shared hit=29
+                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..8.47 rows=3 width=4) (actual time=0.006..0.014 rows=9.00 loops=1)
                                             Index Cond: (seller_id = 1042)
                                             Heap Fetches: 6
                                             Index Searches: 1
@@ -143,103 +241,5 @@ Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.124..0.125 rows=13.00 l
                     Buffers: shared hit=40
 Planning:
   Buffers: shared hit=543
-Planning Time: 0.933 ms
-Execution Time: 0.153 ms
-=== R06 run 4 ===
-Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.123..0.123 rows=13.00 loops=1)
-  Sort Key: m.sent_at DESC
-  Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=117
-  ->  Nested Loop  (cost=30.50..62.08 rows=3 width=50) (actual time=0.068..0.113 rows=13.00 loops=1)
-        Buffers: shared hit=114
-        ->  Nested Loop  (cost=30.08..54.74 rows=3 width=21) (actual time=0.045..0.067 rows=13.00 loops=1)
-              Buffers: shared hit=74
-              ->  Unique  (cost=29.79..29.81 rows=3 width=8) (actual time=0.039..0.041 rows=13.00 loops=1)
-                    Buffers: shared hit=35
-                    ->  Sort  (cost=29.79..29.79 rows=3 width=8) (actual time=0.039..0.039 rows=13.00 loops=1)
-                          Sort Key: t.thread_id, t.listing_id
-                          Sort Method: quicksort  Memory: 25kB
-                          Buffers: shared hit=35
-                          ->  Append  (cost=0.29..29.76 rows=3 width=8) (actual time=0.004..0.034 rows=13.00 loops=1)
-                                Buffers: shared hit=32
-                                ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.004..0.004 rows=3.00 loops=1)
-                                      Index Cond: (buyer_id = 1042)
-                                      Heap Fetches: 0
-                                      Index Searches: 1
-                                      Buffers: shared hit=3
-                                ->  Nested Loop  (cost=0.71..25.42 rows=1 width=8) (actual time=0.011..0.029 rows=10.00 loops=1)
-                                      Buffers: shared hit=29
-                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..12.47 rows=3 width=4) (actual time=0.007..0.015 rows=9.00 loops=1)
-                                            Index Cond: (seller_id = 1042)
-                                            Heap Fetches: 6
-                                            Index Searches: 1
-                                            Buffers: shared hit=10
-                                      ->  Index Only Scan using idx_chat_threads_listing on chat_threads t_1  (cost=0.29..4.31 rows=1 width=8) (actual time=0.001..0.001 rows=1.11 loops=9)
-                                            Index Cond: (listing_id = l_1.listing_id)
-                                            Heap Fetches: 0
-                                            Index Searches: 9
-                                            Buffers: shared hit=19
-              ->  Index Scan using listings_pkey on listings l  (cost=0.29..8.31 rows=1 width=21) (actual time=0.002..0.002 rows=1.00 loops=13)
-                    Index Cond: (listing_id = t.listing_id)
-                    Index Searches: 13
-                    Buffers: shared hit=39
-        ->  Limit  (cost=0.42..2.44 rows=1 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
-              Buffers: shared hit=40
-              ->  Index Only Scan using idx_chat_messages_thread_latest on chat_messages m  (cost=0.42..8.49 rows=4 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
-                    Index Cond: (thread_id = t.thread_id)
-                    Heap Fetches: 0
-                    Index Searches: 13
-                    Buffers: shared hit=40
-Planning:
-  Buffers: shared hit=543
-Planning Time: 0.902 ms
-Execution Time: 0.151 ms
-=== R06 run 5 ===
-Sort  (cost=62.11..62.11 rows=3 width=50) (actual time=0.122..0.123 rows=13.00 loops=1)
-  Sort Key: m.sent_at DESC
-  Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=117
-  ->  Nested Loop  (cost=30.50..62.08 rows=3 width=50) (actual time=0.066..0.112 rows=13.00 loops=1)
-        Buffers: shared hit=114
-        ->  Nested Loop  (cost=30.08..54.74 rows=3 width=21) (actual time=0.044..0.066 rows=13.00 loops=1)
-              Buffers: shared hit=74
-              ->  Unique  (cost=29.79..29.81 rows=3 width=8) (actual time=0.038..0.040 rows=13.00 loops=1)
-                    Buffers: shared hit=35
-                    ->  Sort  (cost=29.79..29.79 rows=3 width=8) (actual time=0.038..0.039 rows=13.00 loops=1)
-                          Sort Key: t.thread_id, t.listing_id
-                          Sort Method: quicksort  Memory: 25kB
-                          Buffers: shared hit=35
-                          ->  Append  (cost=0.29..29.76 rows=3 width=8) (actual time=0.004..0.033 rows=13.00 loops=1)
-                                Buffers: shared hit=32
-                                ->  Index Only Scan using idx_chat_threads_buyer_listing on chat_threads t  (cost=0.29..4.32 rows=2 width=8) (actual time=0.003..0.004 rows=3.00 loops=1)
-                                      Index Cond: (buyer_id = 1042)
-                                      Heap Fetches: 0
-                                      Index Searches: 1
-                                      Buffers: shared hit=3
-                                ->  Nested Loop  (cost=0.71..25.42 rows=1 width=8) (actual time=0.010..0.029 rows=10.00 loops=1)
-                                      Buffers: shared hit=29
-                                      ->  Index Only Scan using idx_listings_seller_status_id on listings l_1  (cost=0.42..12.47 rows=3 width=4) (actual time=0.007..0.015 rows=9.00 loops=1)
-                                            Index Cond: (seller_id = 1042)
-                                            Heap Fetches: 6
-                                            Index Searches: 1
-                                            Buffers: shared hit=10
-                                      ->  Index Only Scan using idx_chat_threads_listing on chat_threads t_1  (cost=0.29..4.31 rows=1 width=8) (actual time=0.001..0.001 rows=1.11 loops=9)
-                                            Index Cond: (listing_id = l_1.listing_id)
-                                            Heap Fetches: 0
-                                            Index Searches: 9
-                                            Buffers: shared hit=19
-              ->  Index Scan using listings_pkey on listings l  (cost=0.29..8.31 rows=1 width=21) (actual time=0.002..0.002 rows=1.00 loops=13)
-                    Index Cond: (listing_id = t.listing_id)
-                    Index Searches: 13
-                    Buffers: shared hit=39
-        ->  Limit  (cost=0.42..2.44 rows=1 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
-              Buffers: shared hit=40
-              ->  Index Only Scan using idx_chat_messages_thread_latest on chat_messages m  (cost=0.42..8.49 rows=4 width=29) (actual time=0.003..0.003 rows=1.00 loops=13)
-                    Index Cond: (thread_id = t.thread_id)
-                    Heap Fetches: 0
-                    Index Searches: 13
-                    Buffers: shared hit=40
-Planning:
-  Buffers: shared hit=543
-Planning Time: 0.881 ms
-Execution Time: 0.151 ms
+Planning Time: 0.904 ms
+Execution Time: 0.150 ms

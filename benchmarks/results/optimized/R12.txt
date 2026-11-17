@@ -1,85 +1,85 @@
 === R12 run 1 ===
-Sort  (cost=12677.91..12777.72 rows=39925 width=16) (actual time=52.331..52.332 rows=30.00 loops=1)
+Sort  (cost=14453.78..14571.41 rows=47053 width=16) (actual time=52.445..52.446 rows=30.00 loops=1)
   Sort Key: (count(*)) DESC, (((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date)
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=4836, temp read=60 written=130
-  ->  HashAggregate  (cost=7830.00..9626.64 rows=39925 width=16) (actual time=45.003..52.321 rows=30.00 loops=1)
+  Buffers: shared hit=5155, temp read=60 written=130
+  ->  HashAggregate  (cost=8684.60..10802.00 rows=47053 width=16) (actual time=44.958..52.435 rows=30.00 loops=1)
         Group Key: seller_id, ((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date
         Filter: (count(*) >= 5)
         Batches: 5  Memory Usage: 8249kB  Disk Usage: 696kB
         Rows Removed by Filter: 119414
-        Buffers: shared hit=4830, temp read=60 written=130
-        ->  Seq Scan on listings  (cost=0.00..6930.00 rows=120000 width=8) (actual time=0.296..33.914 rows=120000.00 loops=1)
-              Buffers: shared hit=4830
+        Buffers: shared hit=5149, temp read=60 written=130
+        ->  Seq Scan on listings  (cost=0.00..7623.92 rows=141424 width=8) (actual time=0.015..34.401 rows=120000.00 loops=1)
+              Buffers: shared hit=5149
 Planning:
   Buffers: shared hit=391
-Planning Time: 0.515 ms
-Execution Time: 52.702 ms
+Planning Time: 0.514 ms
+Execution Time: 53.065 ms
 === R12 run 2 ===
-Sort  (cost=12677.91..12777.72 rows=39925 width=16) (actual time=52.075..52.076 rows=30.00 loops=1)
+Sort  (cost=14453.78..14571.41 rows=47053 width=16) (actual time=52.781..52.782 rows=30.00 loops=1)
   Sort Key: (count(*)) DESC, (((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date)
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=4836, temp read=60 written=130
-  ->  HashAggregate  (cost=7830.00..9626.64 rows=39925 width=16) (actual time=44.653..52.065 rows=30.00 loops=1)
+  Buffers: shared hit=5155, temp read=60 written=130
+  ->  HashAggregate  (cost=8684.60..10802.00 rows=47053 width=16) (actual time=44.992..52.770 rows=30.00 loops=1)
         Group Key: seller_id, ((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date
         Filter: (count(*) >= 5)
         Batches: 5  Memory Usage: 8249kB  Disk Usage: 696kB
         Rows Removed by Filter: 119414
-        Buffers: shared hit=4830, temp read=60 written=130
-        ->  Seq Scan on listings  (cost=0.00..6930.00 rows=120000 width=8) (actual time=0.015..34.104 rows=120000.00 loops=1)
-              Buffers: shared hit=4830
+        Buffers: shared hit=5149, temp read=60 written=130
+        ->  Seq Scan on listings  (cost=0.00..7623.92 rows=141424 width=8) (actual time=0.014..35.026 rows=120000.00 loops=1)
+              Buffers: shared hit=5149
 Planning:
   Buffers: shared hit=391
-Planning Time: 0.503 ms
-Execution Time: 52.546 ms
+Planning Time: 0.510 ms
+Execution Time: 53.168 ms
 === R12 run 3 ===
-Sort  (cost=12677.91..12777.72 rows=39925 width=16) (actual time=52.571..52.572 rows=30.00 loops=1)
+Sort  (cost=14453.78..14571.41 rows=47053 width=16) (actual time=52.578..52.579 rows=30.00 loops=1)
   Sort Key: (count(*)) DESC, (((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date)
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=4836, temp read=60 written=130
-  ->  HashAggregate  (cost=7830.00..9626.64 rows=39925 width=16) (actual time=45.341..52.561 rows=30.00 loops=1)
+  Buffers: shared hit=5155, temp read=60 written=130
+  ->  HashAggregate  (cost=8684.60..10802.00 rows=47053 width=16) (actual time=45.181..52.567 rows=30.00 loops=1)
         Group Key: seller_id, ((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date
         Filter: (count(*) >= 5)
         Batches: 5  Memory Usage: 8249kB  Disk Usage: 696kB
         Rows Removed by Filter: 119414
-        Buffers: shared hit=4830, temp read=60 written=130
-        ->  Seq Scan on listings  (cost=0.00..6930.00 rows=120000 width=8) (actual time=0.015..34.966 rows=120000.00 loops=1)
-              Buffers: shared hit=4830
+        Buffers: shared hit=5149, temp read=60 written=130
+        ->  Seq Scan on listings  (cost=0.00..7623.92 rows=141424 width=8) (actual time=0.018..34.881 rows=120000.00 loops=1)
+              Buffers: shared hit=5149
 Planning:
   Buffers: shared hit=391
-Planning Time: 0.508 ms
-Execution Time: 52.926 ms
+Planning Time: 0.547 ms
+Execution Time: 53.242 ms
 === R12 run 4 ===
-Sort  (cost=12677.91..12777.72 rows=39925 width=16) (actual time=50.955..50.956 rows=30.00 loops=1)
+Sort  (cost=14453.78..14571.41 rows=47053 width=16) (actual time=53.523..53.524 rows=30.00 loops=1)
   Sort Key: (count(*)) DESC, (((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date)
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=4836, temp read=60 written=130
-  ->  HashAggregate  (cost=7830.00..9626.64 rows=39925 width=16) (actual time=43.923..50.945 rows=30.00 loops=1)
+  Buffers: shared hit=5155, temp read=60 written=130
+  ->  HashAggregate  (cost=8684.60..10802.00 rows=47053 width=16) (actual time=46.088..53.512 rows=30.00 loops=1)
         Group Key: seller_id, ((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date
         Filter: (count(*) >= 5)
         Batches: 5  Memory Usage: 8249kB  Disk Usage: 696kB
         Rows Removed by Filter: 119414
-        Buffers: shared hit=4830, temp read=60 written=130
-        ->  Seq Scan on listings  (cost=0.00..6930.00 rows=120000 width=8) (actual time=0.015..33.541 rows=120000.00 loops=1)
-              Buffers: shared hit=4830
+        Buffers: shared hit=5149, temp read=60 written=130
+        ->  Seq Scan on listings  (cost=0.00..7623.92 rows=141424 width=8) (actual time=0.015..36.205 rows=120000.00 loops=1)
+              Buffers: shared hit=5149
 Planning:
   Buffers: shared hit=391
-Planning Time: 0.521 ms
-Execution Time: 51.580 ms
+Planning Time: 0.513 ms
+Execution Time: 54.146 ms
 === R12 run 5 ===
-Sort  (cost=12677.91..12777.72 rows=39925 width=16) (actual time=52.432..52.433 rows=30.00 loops=1)
+Sort  (cost=14453.78..14571.41 rows=47053 width=16) (actual time=51.508..51.509 rows=30.00 loops=1)
   Sort Key: (count(*)) DESC, (((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date)
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=4836, temp read=60 written=130
-  ->  HashAggregate  (cost=7830.00..9626.64 rows=39925 width=16) (actual time=45.261..52.422 rows=30.00 loops=1)
+  Buffers: shared hit=5155, temp read=60 written=130
+  ->  HashAggregate  (cost=8684.60..10802.00 rows=47053 width=16) (actual time=44.271..51.498 rows=30.00 loops=1)
         Group Key: seller_id, ((posted_at AT TIME ZONE current_setting('TimeZone'::text)))::date
         Filter: (count(*) >= 5)
         Batches: 5  Memory Usage: 8249kB  Disk Usage: 696kB
         Rows Removed by Filter: 119414
-        Buffers: shared hit=4830, temp read=60 written=130
-        ->  Seq Scan on listings  (cost=0.00..6930.00 rows=120000 width=8) (actual time=0.014..35.274 rows=120000.00 loops=1)
-              Buffers: shared hit=4830
+        Buffers: shared hit=5149, temp read=60 written=130
+        ->  Seq Scan on listings  (cost=0.00..7623.92 rows=141424 width=8) (actual time=0.016..34.333 rows=120000.00 loops=1)
+              Buffers: shared hit=5149
 Planning:
   Buffers: shared hit=391
-Planning Time: 0.508 ms
-Execution Time: 53.075 ms
+Planning Time: 0.555 ms
+Execution Time: 52.192 ms
