@@ -1,0 +1,3 @@
+-- Phase 5 partitioning work is pending.
+-- Partitioning SQL and EXPLAIN checks will be added when large_data.zip is provided
+-- and the design can be tested against the large dataset.
