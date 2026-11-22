@@ -268,9 +268,11 @@ ORDER BY agg.avg_stars DESC, agg.ratings DESC;
 -- Moderation console: all ads, newest first, page 2,001 (25 per page)
 -- Change: seek from the verified last row of page 2,000 instead of walking
 -- and discarding 50,000 rows. The listing_id tie-break makes the page stable.
+-- Seed cursor (120k listings): ('2025-11-16 07:06:36+05:30'::timestamptz, 70176)
+-- Large cursor (2.4M listings, OFFSET 49999 LIMIT 1): ('2026-06-19 14:18:43+05:30'::timestamptz, 2349875)
 SELECT listing_id, seller_id, category_id, title, status, posted_at
 FROM listings
-WHERE (posted_at, listing_id) < ('2025-11-16 07:06:36+05:30'::timestamptz, 70176)
+WHERE (posted_at, listing_id) < ('2026-06-19 14:18:43+05:30'::timestamptz, 2349875)
 ORDER BY posted_at DESC, listing_id DESC
 LIMIT 25;
 

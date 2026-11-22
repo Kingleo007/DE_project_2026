@@ -1,27 +1,27 @@
 === W05 run 1 ===
-Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.145..0.146 rows=0.00 loops=1)
-  Buffers: shared hit=61
+Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=1.361..1.361 rows=0.00 loops=1)
+  Buffers: shared hit=53 read=8 dirtied=5 written=2
   InitPlan 1
-    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.026..0.026 rows=1.00 loops=1)
+    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.037..0.037 rows=1.00 loops=1)
           Buffers: shared hit=4
-          ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.025..0.025 rows=1.00 loops=1)
+          ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.036..0.036 rows=1.00 loops=1)
                 Index Cond: ((listing_id = 118642) AND (status = 'PENDING'::text))
                 Heap Fetches: 1
                 Index Searches: 1
                 Buffers: shared hit=4
-  ->  Index Scan using idx_offers_listing_status_price on offers  (cost=0.29..8.31 rows=1 width=72) (actual time=0.037..0.040 rows=3.00 loops=1)
+  ->  Index Scan using idx_offers_listing_status_price on offers  (cost=0.29..8.31 rows=1 width=72) (actual time=0.248..0.252 rows=3.00 loops=1)
         Index Cond: ((listing_id = 118642) AND ((status)::text = 'PENDING'::text))
         Index Searches: 1
-        Buffers: shared hit=9
+        Buffers: shared hit=8 read=1
 Planning:
   Buffers: shared hit=131
-Planning Time: 0.228 ms
-Execution Time: 0.190 ms
+Planning Time: 0.251 ms
+Execution Time: 1.409 ms
 === W05 run 2 ===
 Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.142..0.142 rows=0.00 loops=1)
   Buffers: shared hit=61
   InitPlan 1
-    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.024..0.024 rows=1.00 loops=1)
+    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.023..0.023 rows=1.00 loops=1)
           Buffers: shared hit=4
           ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.023..0.023 rows=1.00 loops=1)
                 Index Cond: ((listing_id = 118642) AND (status = 'PENDING'::text))
@@ -34,62 +34,24 @@ Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.142..0.142 ro
         Buffers: shared hit=9
 Planning:
   Buffers: shared hit=131
-Planning Time: 0.246 ms
-Execution Time: 0.185 ms
+Planning Time: 0.225 ms
+Execution Time: 0.189 ms
 === W05 run 3 ===
-Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.224..0.224 rows=0.00 loops=1)
-  Buffers: shared hit=61
+Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.129..0.130 rows=0.00 loops=1)
+  Buffers: shared hit=61 dirtied=1
   InitPlan 1
-    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.023..0.023 rows=1.00 loops=1)
+    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.022..0.022 rows=1.00 loops=1)
           Buffers: shared hit=4
-          ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.023..0.023 rows=1.00 loops=1)
+          ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.022..0.022 rows=1.00 loops=1)
                 Index Cond: ((listing_id = 118642) AND (status = 'PENDING'::text))
                 Heap Fetches: 1
                 Index Searches: 1
                 Buffers: shared hit=4
-  ->  Index Scan using idx_offers_listing_status_price on offers  (cost=0.29..8.31 rows=1 width=72) (actual time=0.037..0.057 rows=3.00 loops=1)
-        Index Cond: ((listing_id = 118642) AND ((status)::text = 'PENDING'::text))
-        Index Searches: 1
-        Buffers: shared hit=9
-Planning:
-  Buffers: shared hit=131
-Planning Time: 0.220 ms
-Execution Time: 0.268 ms
-=== W05 run 4 ===
-Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.142..0.143 rows=0.00 loops=1)
-  Buffers: shared hit=61
-  InitPlan 1
-    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.024..0.024 rows=1.00 loops=1)
-          Buffers: shared hit=4
-          ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.023..0.023 rows=1.00 loops=1)
-                Index Cond: ((listing_id = 118642) AND (status = 'PENDING'::text))
-                Heap Fetches: 1
-                Index Searches: 1
-                Buffers: shared hit=4
-  ->  Index Scan using idx_offers_listing_status_price on offers  (cost=0.29..8.31 rows=1 width=72) (actual time=0.040..0.045 rows=3.00 loops=1)
+  ->  Index Scan using idx_offers_listing_status_price on offers  (cost=0.29..8.31 rows=1 width=72) (actual time=0.034..0.039 rows=3.00 loops=1)
         Index Cond: ((listing_id = 118642) AND ((status)::text = 'PENDING'::text))
         Index Searches: 1
         Buffers: shared hit=9
 Planning:
   Buffers: shared hit=131
 Planning Time: 0.213 ms
-Execution Time: 0.188 ms
-=== W05 run 5 ===
-Update on offers  (cost=8.59..16.62 rows=0 width=0) (actual time=0.199..0.200 rows=0.00 loops=1)
-  Buffers: shared hit=61
-  InitPlan 1
-    ->  Limit  (cost=0.29..8.31 rows=1 width=10) (actual time=0.032..0.032 rows=1.00 loops=1)
-          Buffers: shared hit=4
-          ->  Index Only Scan using idx_offers_listing_status_price on offers offers_1  (cost=0.29..8.31 rows=1 width=10) (actual time=0.031..0.031 rows=1.00 loops=1)
-                Index Cond: ((listing_id = 118642) AND (status = 'PENDING'::text))
-                Heap Fetches: 1
-                Index Searches: 1
-                Buffers: shared hit=4
-  ->  Index Scan using idx_offers_listing_status_price on offers  (cost=0.29..8.31 rows=1 width=72) (actual time=0.050..0.057 rows=3.00 loops=1)
-        Index Cond: ((listing_id = 118642) AND ((status)::text = 'PENDING'::text))
-        Index Searches: 1
-        Buffers: shared hit=9
-Planning:
-  Buffers: shared hit=131
-Planning Time: 0.230 ms
-Execution Time: 0.245 ms
+Execution Time: 0.173 ms

@@ -1,95 +1,57 @@
 === R09 run 1 ===
-Sort  (cost=147.87..147.88 rows=1 width=59) (actual time=0.103..0.104 rows=5.00 loops=1)
+Sort  (cost=128.89..128.89 rows=1 width=59) (actual time=1.168..1.168 rows=5.00 loops=1)
   Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9744814473612341'::double precision * cos(radians((latitude)::double precision))) * cos((radians((longitude)::double precision) - '1.354281251767992'::double precision))) + ('0.2244680573016001'::double precision * sin(radians((latitude)::double precision))))))))::numeric, 2))
   Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=45
-  ->  Bitmap Heap Scan on listings  (cost=4.66..147.86 rows=1 width=59) (actual time=0.029..0.093 rows=5.00 loops=1)
+  Buffers: shared hit=21 read=24
+  ->  Bitmap Heap Scan on listings  (cost=4.61..128.88 rows=1 width=59) (actual time=0.521..1.159 rows=5.00 loops=1)
         Recheck Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131) AND ((status)::text = 'ACTIVE'::text) AND (category_id = 9))
         Filter: ((latitude >= 12.9536) AND (latitude <= 12.9896))
         Rows Removed by Filter: 35
         Heap Blocks: exact=40
-        Buffers: shared hit=42
-        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.66 rows=38 width=0) (actual time=0.006..0.006 rows=40.00 loops=1)
+        Buffers: shared hit=18 read=24
+        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.61 rows=33 width=0) (actual time=0.341..0.341 rows=40.00 loops=1)
               Index Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131))
               Index Searches: 1
-              Buffers: shared hit=2
+              Buffers: shared read=2
 Planning:
   Buffers: shared hit=410
-Planning Time: 0.624 ms
-Execution Time: 0.130 ms
+Planning Time: 0.587 ms
+Execution Time: 1.195 ms
 === R09 run 2 ===
-Sort  (cost=147.87..147.88 rows=1 width=59) (actual time=0.071..0.072 rows=5.00 loops=1)
+Sort  (cost=128.89..128.89 rows=1 width=59) (actual time=0.063..0.063 rows=5.00 loops=1)
   Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9744814473612341'::double precision * cos(radians((latitude)::double precision))) * cos((radians((longitude)::double precision) - '1.354281251767992'::double precision))) + ('0.2244680573016001'::double precision * sin(radians((latitude)::double precision))))))))::numeric, 2))
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=45
-  ->  Bitmap Heap Scan on listings  (cost=4.66..147.86 rows=1 width=59) (actual time=0.018..0.062 rows=5.00 loops=1)
+  ->  Bitmap Heap Scan on listings  (cost=4.61..128.88 rows=1 width=59) (actual time=0.017..0.056 rows=5.00 loops=1)
         Recheck Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131) AND ((status)::text = 'ACTIVE'::text) AND (category_id = 9))
         Filter: ((latitude >= 12.9536) AND (latitude <= 12.9896))
         Rows Removed by Filter: 35
         Heap Blocks: exact=40
         Buffers: shared hit=42
-        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.66 rows=38 width=0) (actual time=0.005..0.005 rows=40.00 loops=1)
+        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.61 rows=33 width=0) (actual time=0.005..0.005 rows=40.00 loops=1)
               Index Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131))
               Index Searches: 1
               Buffers: shared hit=2
 Planning:
   Buffers: shared hit=410
-Planning Time: 0.589 ms
-Execution Time: 0.097 ms
+Planning Time: 0.614 ms
+Execution Time: 0.089 ms
 === R09 run 3 ===
-Sort  (cost=147.87..147.88 rows=1 width=59) (actual time=0.077..0.077 rows=5.00 loops=1)
+Sort  (cost=128.89..128.89 rows=1 width=59) (actual time=0.061..0.061 rows=5.00 loops=1)
   Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9744814473612341'::double precision * cos(radians((latitude)::double precision))) * cos((radians((longitude)::double precision) - '1.354281251767992'::double precision))) + ('0.2244680573016001'::double precision * sin(radians((latitude)::double precision))))))))::numeric, 2))
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=45
-  ->  Bitmap Heap Scan on listings  (cost=4.66..147.86 rows=1 width=59) (actual time=0.019..0.067 rows=5.00 loops=1)
+  ->  Bitmap Heap Scan on listings  (cost=4.61..128.88 rows=1 width=59) (actual time=0.017..0.054 rows=5.00 loops=1)
         Recheck Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131) AND ((status)::text = 'ACTIVE'::text) AND (category_id = 9))
         Filter: ((latitude >= 12.9536) AND (latitude <= 12.9896))
         Rows Removed by Filter: 35
         Heap Blocks: exact=40
         Buffers: shared hit=42
-        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.66 rows=38 width=0) (actual time=0.005..0.005 rows=40.00 loops=1)
+        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.61 rows=33 width=0) (actual time=0.005..0.005 rows=40.00 loops=1)
               Index Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131))
               Index Searches: 1
               Buffers: shared hit=2
 Planning:
   Buffers: shared hit=410
-Planning Time: 0.620 ms
-Execution Time: 0.105 ms
-=== R09 run 4 ===
-Sort  (cost=147.87..147.88 rows=1 width=59) (actual time=0.078..0.078 rows=5.00 loops=1)
-  Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9744814473612341'::double precision * cos(radians((latitude)::double precision))) * cos((radians((longitude)::double precision) - '1.354281251767992'::double precision))) + ('0.2244680573016001'::double precision * sin(radians((latitude)::double precision))))))))::numeric, 2))
-  Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=45
-  ->  Bitmap Heap Scan on listings  (cost=4.66..147.86 rows=1 width=59) (actual time=0.020..0.068 rows=5.00 loops=1)
-        Recheck Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131) AND ((status)::text = 'ACTIVE'::text) AND (category_id = 9))
-        Filter: ((latitude >= 12.9536) AND (latitude <= 12.9896))
-        Rows Removed by Filter: 35
-        Heap Blocks: exact=40
-        Buffers: shared hit=42
-        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.66 rows=38 width=0) (actual time=0.005..0.005 rows=40.00 loops=1)
-              Index Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131))
-              Index Searches: 1
-              Buffers: shared hit=2
-Planning:
-  Buffers: shared hit=410
-Planning Time: 0.595 ms
-Execution Time: 0.105 ms
-=== R09 run 5 ===
-Sort  (cost=147.87..147.88 rows=1 width=59) (actual time=0.077..0.077 rows=5.00 loops=1)
-  Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9744814473612341'::double precision * cos(radians((latitude)::double precision))) * cos((radians((longitude)::double precision) - '1.354281251767992'::double precision))) + ('0.2244680573016001'::double precision * sin(radians((latitude)::double precision))))))))::numeric, 2))
-  Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=45
-  ->  Bitmap Heap Scan on listings  (cost=4.66..147.86 rows=1 width=59) (actual time=0.020..0.067 rows=5.00 loops=1)
-        Recheck Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131) AND ((status)::text = 'ACTIVE'::text) AND (category_id = 9))
-        Filter: ((latitude >= 12.9536) AND (latitude <= 12.9896))
-        Rows Removed by Filter: 35
-        Heap Blocks: exact=40
-        Buffers: shared hit=42
-        ->  Bitmap Index Scan on idx_listings_active_furniture_lon  (cost=0.00..4.66 rows=38 width=0) (actual time=0.005..0.005 rows=40.00 loops=1)
-              Index Cond: ((longitude >= 77.5761) AND (longitude <= 77.6131))
-              Index Searches: 1
-              Buffers: shared hit=2
-Planning:
-  Buffers: shared hit=410
-Planning Time: 0.613 ms
-Execution Time: 0.103 ms
+Planning Time: 0.598 ms
+Execution Time: 0.087 ms

@@ -1,0 +1,39 @@
+=== R05 run 1 ===
+GroupAggregate  (cost=0.43..8.56 rows=3 width=22) (actual time=0.360..0.361 rows=2.00 loops=1)
+  Group Key: status
+  Buffers: shared hit=3 read=4
+  ->  Index Only Scan using idx_listings_seller_status_id on listings  (cost=0.43..8.50 rows=4 width=10) (actual time=0.353..0.357 rows=7.00 loops=1)
+        Index Cond: (seller_id = 1042)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=3 read=4
+Planning:
+  Buffers: shared hit=373 read=4
+Planning Time: 0.729 ms
+Execution Time: 0.386 ms
+=== R05 run 2 ===
+GroupAggregate  (cost=0.43..8.56 rows=3 width=22) (actual time=0.029..0.030 rows=2.00 loops=1)
+  Group Key: status
+  Buffers: shared hit=7
+  ->  Index Only Scan using idx_listings_seller_status_id on listings  (cost=0.43..8.50 rows=4 width=10) (actual time=0.024..0.026 rows=7.00 loops=1)
+        Index Cond: (seller_id = 1042)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=377
+Planning Time: 0.546 ms
+Execution Time: 0.053 ms
+=== R05 run 3 ===
+GroupAggregate  (cost=0.43..8.56 rows=3 width=22) (actual time=0.029..0.029 rows=2.00 loops=1)
+  Group Key: status
+  Buffers: shared hit=7
+  ->  Index Only Scan using idx_listings_seller_status_id on listings  (cost=0.43..8.50 rows=4 width=10) (actual time=0.024..0.026 rows=7.00 loops=1)
+        Index Cond: (seller_id = 1042)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=377
+Planning Time: 0.543 ms
+Execution Time: 0.054 ms

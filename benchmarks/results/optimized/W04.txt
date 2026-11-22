@@ -1,60 +1,36 @@
 === W04 run 1 ===
-Update on listings  (cost=0.29..2412.43 rows=0 width=0) (actual time=26.400..26.401 rows=0.00 loops=1)
-  Buffers: shared hit=54858 dirtied=133 written=120
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2412.43 rows=10994 width=64) (actual time=0.009..1.409 rows=2256.00 loops=1)
+Update on listings  (cost=0.29..2067.97 rows=0 width=0) (actual time=794.784..794.784 rows=0.00 loops=1)
+  Buffers: shared hit=48298 read=5302 dirtied=7230 written=3930
+  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2067.97 rows=9329 width=64) (actual time=0.015..3.050 rows=2256.00 loops=1)
         Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
         Filter: ((status)::text = 'ACTIVE'::text)
         Index Searches: 1
         Buffers: shared hit=1769
 Planning:
   Buffers: shared hit=344
-Planning Time: 0.550 ms
-Execution Time: 26.441 ms
+Planning Time: 0.604 ms
+Execution Time: 794.841 ms
 === W04 run 2 ===
-Update on listings  (cost=0.29..2446.27 rows=0 width=0) (actual time=26.609..26.609 rows=0.00 loops=1)
-  Buffers: shared hit=54430 read=1 dirtied=197 written=183
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2446.27 rows=11163 width=64) (actual time=0.011..2.135 rows=2256.00 loops=1)
+Update on listings  (cost=0.29..2101.58 rows=0 width=0) (actual time=23.057..23.058 rows=0.00 loops=1)
+  Buffers: shared hit=53801 dirtied=82 written=108
+  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2101.58 rows=9489 width=64) (actual time=0.015..2.106 rows=2256.00 loops=1)
         Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
         Filter: ((status)::text = 'ACTIVE'::text)
         Index Searches: 1
         Buffers: shared hit=1769
 Planning:
   Buffers: shared hit=344
-Planning Time: 0.541 ms
-Execution Time: 26.653 ms
+Planning Time: 0.544 ms
+Execution Time: 23.107 ms
 === W04 run 3 ===
-Update on listings  (cost=0.29..2480.10 rows=0 width=0) (actual time=27.475..27.475 rows=0.00 loops=1)
-  Buffers: shared hit=54766 read=1 dirtied=120 written=103
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2480.10 rows=11331 width=64) (actual time=0.011..2.157 rows=2256.00 loops=1)
+Update on listings  (cost=0.29..2139.92 rows=0 width=0) (actual time=23.191..23.192 rows=0.00 loops=1)
+  Buffers: shared hit=53932 dirtied=95 written=107
+  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2139.92 rows=9653 width=64) (actual time=0.015..2.157 rows=2256.00 loops=1)
         Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
         Filter: ((status)::text = 'ACTIVE'::text)
         Index Searches: 1
         Buffers: shared hit=1769
 Planning:
   Buffers: shared hit=344
-Planning Time: 0.551 ms
-Execution Time: 27.518 ms
-=== W04 run 4 ===
-Update on listings  (cost=0.29..2513.95 rows=0 width=0) (actual time=28.544..28.545 rows=0.00 loops=1)
-  Buffers: shared hit=54853 dirtied=201 written=183
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2513.95 rows=11500 width=64) (actual time=0.011..2.163 rows=2256.00 loops=1)
-        Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
-        Filter: ((status)::text = 'ACTIVE'::text)
-        Index Searches: 1
-        Buffers: shared hit=1769
-Planning:
-  Buffers: shared hit=344
-Planning Time: 0.538 ms
-Execution Time: 28.585 ms
-=== W04 run 5 ===
-Update on listings  (cost=0.29..2548.15 rows=0 width=0) (actual time=28.748..28.748 rows=0.00 loops=1)
-  Buffers: shared hit=54655 read=2 dirtied=179 written=159
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.29..2548.15 rows=11671 width=64) (actual time=0.010..2.215 rows=2256.00 loops=1)
-        Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
-        Filter: ((status)::text = 'ACTIVE'::text)
-        Index Searches: 1
-        Buffers: shared hit=1769
-Planning:
-  Buffers: shared hit=344
-Planning Time: 0.517 ms
-Execution Time: 28.790 ms
+Planning Time: 0.526 ms
+Execution Time: 23.242 ms

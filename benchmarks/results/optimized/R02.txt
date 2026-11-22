@@ -1,65 +1,39 @@
 === R02 run 1 ===
-Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.050..0.050 rows=5.00 loops=1)
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.754..0.755 rows=5.00 loops=1)
   Sort Key: price
   Sort Method: quicksort  Memory: 26kB
-  Buffers: shared hit=13
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.025..0.035 rows=5.00 loops=1)
+  Buffers: shared hit=7 read=6
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.514..0.741 rows=5.00 loops=1)
         Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
         Index Searches: 1
-        Buffers: shared hit=10
+        Buffers: shared hit=4 read=6
 Planning:
   Buffers: shared hit=415
-Planning Time: 0.672 ms
-Execution Time: 0.067 ms
+Planning Time: 0.862 ms
+Execution Time: 0.770 ms
 === R02 run 2 ===
-Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.030..0.031 rows=5.00 loops=1)
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.040..0.040 rows=5.00 loops=1)
   Sort Key: price
   Sort Method: quicksort  Memory: 26kB
   Buffers: shared hit=13
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.013..0.020 rows=5.00 loops=1)
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.023..0.028 rows=5.00 loops=1)
         Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
         Index Searches: 1
         Buffers: shared hit=10
 Planning:
   Buffers: shared hit=415
-Planning Time: 0.647 ms
-Execution Time: 0.043 ms
+Planning Time: 0.835 ms
+Execution Time: 0.055 ms
 === R02 run 3 ===
-Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.031..0.032 rows=5.00 loops=1)
+Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.034..0.034 rows=5.00 loops=1)
   Sort Key: price
   Sort Method: quicksort  Memory: 26kB
   Buffers: shared hit=13
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.015..0.021 rows=5.00 loops=1)
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.019..0.024 rows=5.00 loops=1)
         Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
         Index Searches: 1
         Buffers: shared hit=10
 Planning:
   Buffers: shared hit=415
-Planning Time: 0.655 ms
-Execution Time: 0.044 ms
-=== R02 run 4 ===
-Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.031..0.031 rows=5.00 loops=1)
-  Sort Key: price
-  Sort Method: quicksort  Memory: 26kB
-  Buffers: shared hit=13
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.014..0.020 rows=5.00 loops=1)
-        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
-        Index Searches: 1
-        Buffers: shared hit=10
-Planning:
-  Buffers: shared hit=415
-Planning Time: 0.648 ms
-Execution Time: 0.043 ms
-=== R02 run 5 ===
-Sort  (cost=8.32..8.33 rows=1 width=102) (actual time=0.030..0.031 rows=5.00 loops=1)
-  Sort Key: price
-  Sort Method: quicksort  Memory: 26kB
-  Buffers: shared hit=13
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.29..8.31 rows=1 width=102) (actual time=0.013..0.020 rows=5.00 loops=1)
-        Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
-        Index Searches: 1
-        Buffers: shared hit=10
-Planning:
-  Buffers: shared hit=415
-Planning Time: 0.635 ms
-Execution Time: 0.043 ms
+Planning Time: 0.750 ms
+Execution Time: 0.048 ms

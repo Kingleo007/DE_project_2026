@@ -1,0 +1,57 @@
+=== R01 run 1 ===
+Limit  (cost=2306.51..2306.61 rows=40 width=67) (actual time=154.369..154.371 rows=40.00 loops=1)
+  Buffers: shared hit=3 read=3251 written=11
+  ->  Sort  (cost=2306.51..2308.02 rows=602 width=67) (actual time=154.367..154.369 rows=40.00 loops=1)
+        Sort Key: posted_at DESC
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=3 read=3251 written=11
+        ->  Bitmap Heap Scan on listings  (cost=21.60..2287.48 rows=602 width=67) (actual time=1.097..153.875 rows=3570.00 loops=1)
+              Recheck Cond: ((category_id = 2) AND (city_id = 1) AND (price >= '300000'::numeric) AND (price <= '600000'::numeric) AND ((status)::text = 'ACTIVE'::text))
+              Heap Blocks: exact=3230
+              Buffers: shared read=3251 written=11
+              ->  Bitmap Index Scan on idx_listings_active_cat_city_price_posted  (cost=0.00..21.45 rows=602 width=0) (actual time=0.754..0.754 rows=3570.00 loops=1)
+                    Index Cond: ((category_id = 2) AND (city_id = 1) AND (price >= '300000'::numeric) AND (price <= '600000'::numeric))
+                    Index Searches: 1
+                    Buffers: shared read=21
+Planning:
+  Buffers: shared hit=418
+Planning Time: 1.390 ms
+Execution Time: 154.394 ms
+=== R01 run 2 ===
+Limit  (cost=2306.51..2306.61 rows=40 width=67) (actual time=6.113..6.115 rows=40.00 loops=1)
+  Buffers: shared hit=1050 read=2204
+  ->  Sort  (cost=2306.51..2308.02 rows=602 width=67) (actual time=6.112..6.113 rows=40.00 loops=1)
+        Sort Key: posted_at DESC
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=1050 read=2204
+        ->  Bitmap Heap Scan on listings  (cost=21.60..2287.48 rows=602 width=67) (actual time=0.411..5.760 rows=3570.00 loops=1)
+              Recheck Cond: ((category_id = 2) AND (city_id = 1) AND (price >= '300000'::numeric) AND (price <= '600000'::numeric) AND ((status)::text = 'ACTIVE'::text))
+              Heap Blocks: exact=3230
+              Buffers: shared hit=1047 read=2204
+              ->  Bitmap Index Scan on idx_listings_active_cat_city_price_posted  (cost=0.00..21.45 rows=602 width=0) (actual time=0.222..0.222 rows=3570.00 loops=1)
+                    Index Cond: ((category_id = 2) AND (city_id = 1) AND (price >= '300000'::numeric) AND (price <= '600000'::numeric))
+                    Index Searches: 1
+                    Buffers: shared read=21
+Planning:
+  Buffers: shared hit=402 read=16
+Planning Time: 2.539 ms
+Execution Time: 6.136 ms
+=== R01 run 3 ===
+Limit  (cost=2306.51..2306.61 rows=40 width=67) (actual time=3.209..3.211 rows=40.00 loops=1)
+  Buffers: shared hit=3254
+  ->  Sort  (cost=2306.51..2308.02 rows=602 width=67) (actual time=3.208..3.209 rows=40.00 loops=1)
+        Sort Key: posted_at DESC
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=3254
+        ->  Bitmap Heap Scan on listings  (cost=21.60..2287.48 rows=602 width=67) (actual time=0.363..2.925 rows=3570.00 loops=1)
+              Recheck Cond: ((category_id = 2) AND (city_id = 1) AND (price >= '300000'::numeric) AND (price <= '600000'::numeric) AND ((status)::text = 'ACTIVE'::text))
+              Heap Blocks: exact=3230
+              Buffers: shared hit=3251
+              ->  Bitmap Index Scan on idx_listings_active_cat_city_price_posted  (cost=0.00..21.45 rows=602 width=0) (actual time=0.195..0.195 rows=3570.00 loops=1)
+                    Index Cond: ((category_id = 2) AND (city_id = 1) AND (price >= '300000'::numeric) AND (price <= '600000'::numeric))
+                    Index Searches: 1
+                    Buffers: shared hit=21
+Planning:
+  Buffers: shared hit=418
+Planning Time: 0.600 ms
+Execution Time: 3.227 ms
