@@ -1,27 +1,51 @@
 === R10 run 1 ===
-Index Scan using idx_listings_active_expires on listings  (cost=0.42..430.78 rows=1076 width=33) (actual time=0.401..27.837 rows=12279.00 loops=1)
-  Index Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone))
-  Index Searches: 1
-  Buffers: shared hit=1991 read=1223
+Sort  (cost=4504.46..4507.49 rows=1212 width=33) (actual time=2.498..2.700 rows=12279.00 loops=1)
+  Sort Key: expires_at
+  Sort Method: quicksort  Memory: 1018kB
+  Buffers: shared hit=39 read=444
+  ->  Bitmap Heap Scan on listings  (cost=28.84..4442.39 rows=1212 width=33) (actual time=0.273..1.747 rows=12279.00 loops=1)
+        Recheck Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+        Heap Blocks: exact=443
+        Buffers: shared hit=36 read=444
+        ->  Bitmap Index Scan on idx_listings_active_expires  (cost=0.00..28.54 rows=1212 width=0) (actual time=0.227..0.227 rows=12279.00 loops=1)
+              Index Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone))
+              Index Searches: 1
+              Buffers: shared read=37
 Planning:
-  Buffers: shared hit=406
-Planning Time: 0.610 ms
-Execution Time: 28.063 ms
+  Buffers: shared hit=368
+Planning Time: 0.537 ms
+Execution Time: 2.908 ms
 === R10 run 2 ===
-Index Scan using idx_listings_active_expires on listings  (cost=0.42..430.78 rows=1076 width=33) (actual time=0.008..2.439 rows=12279.00 loops=1)
-  Index Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone))
-  Index Searches: 1
-  Buffers: shared hit=3214
+Sort  (cost=4504.46..4507.49 rows=1212 width=33) (actual time=2.110..2.308 rows=12279.00 loops=1)
+  Sort Key: expires_at
+  Sort Method: quicksort  Memory: 1018kB
+  Buffers: shared hit=483
+  ->  Bitmap Heap Scan on listings  (cost=28.84..4442.39 rows=1212 width=33) (actual time=0.192..1.493 rows=12279.00 loops=1)
+        Recheck Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+        Heap Blocks: exact=443
+        Buffers: shared hit=480
+        ->  Bitmap Index Scan on idx_listings_active_expires  (cost=0.00..28.54 rows=1212 width=0) (actual time=0.170..0.170 rows=12279.00 loops=1)
+              Index Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone))
+              Index Searches: 1
+              Buffers: shared hit=37
 Planning:
-  Buffers: shared hit=406
-Planning Time: 0.572 ms
-Execution Time: 2.643 ms
+  Buffers: shared hit=368
+Planning Time: 0.493 ms
+Execution Time: 2.511 ms
 === R10 run 3 ===
-Index Scan using idx_listings_active_expires on listings  (cost=0.42..430.78 rows=1076 width=33) (actual time=0.009..2.427 rows=12279.00 loops=1)
-  Index Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone))
-  Index Searches: 1
-  Buffers: shared hit=3214
+Sort  (cost=4504.46..4507.49 rows=1212 width=33) (actual time=2.176..2.374 rows=12279.00 loops=1)
+  Sort Key: expires_at
+  Sort Method: quicksort  Memory: 1018kB
+  Buffers: shared hit=483
+  ->  Bitmap Heap Scan on listings  (cost=28.84..4442.39 rows=1212 width=33) (actual time=0.195..1.545 rows=12279.00 loops=1)
+        Recheck Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+        Heap Blocks: exact=443
+        Buffers: shared hit=480
+        ->  Bitmap Index Scan on idx_listings_active_expires  (cost=0.00..28.54 rows=1212 width=0) (actual time=0.173..0.173 rows=12279.00 loops=1)
+              Index Cond: ((expires_at >= '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (expires_at < '2026-07-04 00:00:00+05:30'::timestamp with time zone))
+              Index Searches: 1
+              Buffers: shared hit=37
 Planning:
-  Buffers: shared hit=406
-Planning Time: 0.560 ms
-Execution Time: 2.629 ms
+  Buffers: shared hit=368
+Planning Time: 0.502 ms
+Execution Time: 2.578 ms

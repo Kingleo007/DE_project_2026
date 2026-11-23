@@ -1,57 +1,33 @@
 === R22 run 1 ===
-Limit  (cost=0.50..2.97 rows=25 width=43) (actual time=0.354..0.356 rows=25.00 loops=1)
-  Buffers: shared hit=11 read=2
-  ->  Incremental Sort  (cost=0.50..231530.43 rows=2345738 width=43) (actual time=0.354..0.354 rows=25.00 loops=1)
-        Sort Key: posted_at DESC, listing_id DESC
-        Presorted Key: posted_at
-        Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
-        Buffers: shared hit=11 read=2
-        ->  Index Only Scan using idx_listings_posted_desc on listings  (cost=0.43..129411.99 rows=2345738 width=43) (actual time=0.340..0.341 rows=26.00 loops=1)
-              Index Cond: (posted_at <= '2026-06-19 14:18:43+05:30'::timestamp with time zone)
-              Filter: (ROW(posted_at, listing_id) < ROW('2026-06-19 14:18:43+05:30'::timestamp with time zone, 2349875))
-              Rows Removed by Filter: 1
-              Heap Fetches: 0
-              Index Searches: 1
-              Buffers: shared hit=2 read=2
+Limit  (cost=0.43..4.86 rows=25 width=43) (actual time=0.009..0.027 rows=25.00 loops=1)
+  Buffers: shared hit=13 read=3
+  ->  Index Scan using idx_listings_posted_desc on listings  (cost=0.43..416204.74 rows=2348299 width=43) (actual time=0.008..0.026 rows=25.00 loops=1)
+        Index Cond: (ROW(posted_at, listing_id) < ROW('2026-06-19 14:18:43+05:30'::timestamp with time zone, 2349875))
+        Index Searches: 1
+        Buffers: shared hit=13 read=3
 Planning:
-  Buffers: shared hit=381
-Planning Time: 0.576 ms
-Execution Time: 0.372 ms
+  Buffers: shared hit=331
+Planning Time: 0.491 ms
+Execution Time: 0.041 ms
 === R22 run 2 ===
-Limit  (cost=0.50..2.97 rows=25 width=43) (actual time=0.046..0.047 rows=25.00 loops=1)
-  Buffers: shared hit=13
-  ->  Incremental Sort  (cost=0.50..231530.43 rows=2345738 width=43) (actual time=0.045..0.046 rows=25.00 loops=1)
-        Sort Key: posted_at DESC, listing_id DESC
-        Presorted Key: posted_at
-        Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
-        Buffers: shared hit=13
-        ->  Index Only Scan using idx_listings_posted_desc on listings  (cost=0.43..129411.99 rows=2345738 width=43) (actual time=0.031..0.033 rows=26.00 loops=1)
-              Index Cond: (posted_at <= '2026-06-19 14:18:43+05:30'::timestamp with time zone)
-              Filter: (ROW(posted_at, listing_id) < ROW('2026-06-19 14:18:43+05:30'::timestamp with time zone, 2349875))
-              Rows Removed by Filter: 1
-              Heap Fetches: 0
-              Index Searches: 1
-              Buffers: shared hit=4
+Limit  (cost=0.43..4.86 rows=25 width=43) (actual time=0.009..0.016 rows=25.00 loops=1)
+  Buffers: shared hit=16
+  ->  Index Scan using idx_listings_posted_desc on listings  (cost=0.43..416204.74 rows=2348299 width=43) (actual time=0.008..0.015 rows=25.00 loops=1)
+        Index Cond: (ROW(posted_at, listing_id) < ROW('2026-06-19 14:18:43+05:30'::timestamp with time zone, 2349875))
+        Index Searches: 1
+        Buffers: shared hit=16
 Planning:
-  Buffers: shared hit=381
-Planning Time: 0.593 ms
-Execution Time: 0.065 ms
+  Buffers: shared hit=331
+Planning Time: 0.503 ms
+Execution Time: 0.030 ms
 === R22 run 3 ===
-Limit  (cost=0.50..2.97 rows=25 width=43) (actual time=0.040..0.041 rows=25.00 loops=1)
-  Buffers: shared hit=13
-  ->  Incremental Sort  (cost=0.50..231530.43 rows=2345738 width=43) (actual time=0.039..0.040 rows=25.00 loops=1)
-        Sort Key: posted_at DESC, listing_id DESC
-        Presorted Key: posted_at
-        Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
-        Buffers: shared hit=13
-        ->  Index Only Scan using idx_listings_posted_desc on listings  (cost=0.43..129411.99 rows=2345738 width=43) (actual time=0.027..0.028 rows=26.00 loops=1)
-              Index Cond: (posted_at <= '2026-06-19 14:18:43+05:30'::timestamp with time zone)
-              Filter: (ROW(posted_at, listing_id) < ROW('2026-06-19 14:18:43+05:30'::timestamp with time zone, 2349875))
-              Rows Removed by Filter: 1
-              Heap Fetches: 0
-              Index Searches: 1
-              Buffers: shared hit=4
+Limit  (cost=0.43..4.86 rows=25 width=43) (actual time=0.009..0.016 rows=25.00 loops=1)
+  Buffers: shared hit=16
+  ->  Index Scan using idx_listings_posted_desc on listings  (cost=0.43..416204.74 rows=2348299 width=43) (actual time=0.008..0.015 rows=25.00 loops=1)
+        Index Cond: (ROW(posted_at, listing_id) < ROW('2026-06-19 14:18:43+05:30'::timestamp with time zone, 2349875))
+        Index Searches: 1
+        Buffers: shared hit=16
 Planning:
-  Buffers: shared hit=381
-Planning Time: 0.538 ms
-Execution Time: 0.056 ms
+  Buffers: shared hit=331
+Planning Time: 0.546 ms
+Execution Time: 0.031 ms

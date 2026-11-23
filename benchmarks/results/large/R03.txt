@@ -1,36 +1,39 @@
 === R03 run 1 ===
-Limit  (cost=0.42..1841.66 rows=40 width=36) (actual time=1938.160..1970.140 rows=40.00 loops=1)
-  Buffers: shared hit=25120 read=24950 written=6746
-  ->  Index Scan using idx_listings_active_price on listings  (cost=0.42..355268.52 rows=7718 width=36) (actual time=1938.159..1970.134 rows=40.00 loops=1)
-        Filter: ((title)::text ~~* '%iphone 13%'::text)
-        Rows Removed by Filter: 50608
+Limit  (cost=0.42..7.94 rows=40 width=36) (actual time=3.643..3.729 rows=40.00 loops=1)
+  Buffers: shared hit=1 read=484
+  ->  Index Only Scan using idx_listings_active_price_ltitle on listings  (cost=0.42..12553.66 rows=66744 width=36) (actual time=3.643..3.727 rows=40.00 loops=1)
+        Filter: (strpos((lower((title)::text)), 'iphone 13'::text) > 0)
+        Rows Removed by Filter: 50666
+        Heap Fetches: 0
         Index Searches: 1
-        Buffers: shared hit=25120 read=24950 written=6746
+        Buffers: shared hit=1 read=484
 Planning:
-  Buffers: shared hit=417 read=2
-Planning Time: 1.778 ms
-Execution Time: 1970.153 ms
+  Buffers: shared hit=367
+Planning Time: 0.574 ms
+Execution Time: 3.741 ms
 === R03 run 2 ===
-Limit  (cost=0.42..1841.66 rows=40 width=36) (actual time=56.587..57.596 rows=40.00 loops=1)
-  Buffers: shared hit=29371 read=20699 written=6
-  ->  Index Scan using idx_listings_active_price on listings  (cost=0.42..355268.52 rows=7718 width=36) (actual time=56.586..57.594 rows=40.00 loops=1)
-        Filter: ((title)::text ~~* '%iphone 13%'::text)
-        Rows Removed by Filter: 50608
+Limit  (cost=0.42..7.94 rows=40 width=36) (actual time=3.026..3.099 rows=40.00 loops=1)
+  Buffers: shared hit=485
+  ->  Index Only Scan using idx_listings_active_price_ltitle on listings  (cost=0.42..12553.66 rows=66744 width=36) (actual time=3.026..3.097 rows=40.00 loops=1)
+        Filter: (strpos((lower((title)::text)), 'iphone 13'::text) > 0)
+        Rows Removed by Filter: 50666
+        Heap Fetches: 0
         Index Searches: 1
-        Buffers: shared hit=29371 read=20699 written=6
+        Buffers: shared hit=485
 Planning:
-  Buffers: shared hit=416 read=3
-Planning Time: 1.085 ms
-Execution Time: 57.609 ms
+  Buffers: shared hit=367
+Planning Time: 0.550 ms
+Execution Time: 3.110 ms
 === R03 run 3 ===
-Limit  (cost=0.42..1841.66 rows=40 width=36) (actual time=51.069..52.101 rows=40.00 loops=1)
-  Buffers: shared hit=29104 read=20966
-  ->  Index Scan using idx_listings_active_price on listings  (cost=0.42..355268.52 rows=7718 width=36) (actual time=51.069..52.099 rows=40.00 loops=1)
-        Filter: ((title)::text ~~* '%iphone 13%'::text)
-        Rows Removed by Filter: 50608
+Limit  (cost=0.42..7.94 rows=40 width=36) (actual time=2.949..3.017 rows=40.00 loops=1)
+  Buffers: shared hit=485
+  ->  Index Only Scan using idx_listings_active_price_ltitle on listings  (cost=0.42..12553.66 rows=66744 width=36) (actual time=2.948..3.016 rows=40.00 loops=1)
+        Filter: (strpos((lower((title)::text)), 'iphone 13'::text) > 0)
+        Rows Removed by Filter: 50666
+        Heap Fetches: 0
         Index Searches: 1
-        Buffers: shared hit=29104 read=20966
+        Buffers: shared hit=485
 Planning:
-  Buffers: shared hit=373 read=46
-Planning Time: 2.269 ms
-Execution Time: 52.114 ms
+  Buffers: shared hit=367
+Planning Time: 0.558 ms
+Execution Time: 3.030 ms

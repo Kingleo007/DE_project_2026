@@ -4,11 +4,15 @@
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 SET search_path TO olx, public;
 
--- R01, R19: category and city are equality filters. Price narrows R01's range;
--- posted_at is carried as a trailing key, though the price range may still need a
--- sort for the requested global newest-first order. The partial index drops inactive ads.
-CREATE INDEX IF NOT EXISTS idx_listings_active_cat_city_price_posted
-    ON listings (category_id, city_id, price, posted_at DESC)
+-- R01, R19: category and city are equality filters; posted_at DESC comes before price
+-- so R01 walks newest active cars first, filters price in-index, and stops at LIMIT 40
+-- without sorting thousands of rows.
+-- Replaced in Phase 5 (old order put price before posted_at DESC, causing 3,570-row sort at 20x):
+-- CREATE INDEX IF NOT EXISTS idx_listings_active_cat_city_price_posted
+--     ON listings (category_id, city_id, price, posted_at DESC)
+--     WHERE status = 'ACTIVE';
+CREATE INDEX IF NOT EXISTS idx_listings_active_cat_city_posted_price
+    ON listings (category_id, city_id, posted_at DESC, price)
     WHERE status = 'ACTIVE';
 
 -- R02: equality filters precede the JSON attribute filters. Year and kilometres
@@ -19,13 +23,18 @@ CREATE INDEX IF NOT EXISTS idx_listings_active_car_filters
                  ((attributes ->> 'km_driven')::integer))
     WHERE status = 'ACTIVE';
 
--- R03: trigram GIN supports the leading-wildcard ILIKE search. The partial B-tree
--- lets the planner choose a price-ordered active scan for the LIMIT when cheaper.
+-- R03: partial covering index ordered by price with pre-lowercased title allows an
+-- Index-Only Scan (0 heap fetches) for strpos(lower(title), ...) ORDER BY price LIMIT 40.
+-- Replaced in Phase 5 (idx_listings_active_price caused 50,608 heap fetches on 20x data):
+-- CREATE INDEX IF NOT EXISTS idx_listings_active_price
+--     ON listings (price)
+--     WHERE status = 'ACTIVE';
 CREATE INDEX IF NOT EXISTS idx_listings_active_title_trgm
     ON listings USING gin (title gin_trgm_ops)
     WHERE status = 'ACTIVE';
-CREATE INDEX IF NOT EXISTS idx_listings_active_price
-    ON listings (price)
+CREATE INDEX IF NOT EXISTS idx_listings_active_price_ltitle
+    ON listings (price, lower(title))
+    INCLUDE (title, listing_id, city_id, item_condition)
     WHERE status = 'ACTIVE';
 
 -- R04, R21: seller equality/grouping is the leading key; stars cover the average.
@@ -56,17 +65,20 @@ CREATE INDEX IF NOT EXISTS idx_chat_messages_unread_thread
     ON chat_messages (thread_id) INCLUDE (sender_id)
     WHERE is_read = false;
 
--- R08: category/model equality followed by the 2026 posting-time range; condition
--- and price are included for grouped median calculation.
+-- R08: partial index restricted to category_id = 5 (Phones) so W04 skips ~90% of listings.
+-- Replaced in Phase 5 (was non-partial across all 2.4M listings):
+-- CREATE INDEX IF NOT EXISTS idx_listings_category_model_posted
+--     ON listings (category_id, (attributes ->> 'model'), posted_at)
+--     INCLUDE (item_condition, price);
 CREATE INDEX IF NOT EXISTS idx_listings_category_model_posted
-    ON listings (category_id, (attributes ->> 'model'), posted_at)
-    INCLUDE (item_condition, price);
+    ON listings ((attributes ->> 'model'), posted_at)
+    INCLUDE (item_condition, price)
+    WHERE category_id = 5;
 
--- R09: the active-furniture bounding box checks latitude and longitude ranges.
--- Separate partial B-trees can combine through a BitmapAnd on the two ranges.
-CREATE INDEX IF NOT EXISTS idx_listings_active_furniture_lat
-    ON listings (latitude)
-    WHERE status = 'ACTIVE' AND category_id = 9;
+-- R09: active-furniture longitude range (latitude index was unused by planner and dropped in Phase 5).
+-- CREATE INDEX IF NOT EXISTS idx_listings_active_furniture_lat
+--     ON listings (latitude)
+--     WHERE status = 'ACTIVE' AND category_id = 9;
 CREATE INDEX IF NOT EXISTS idx_listings_active_furniture_lon
     ON listings (longitude)
     WHERE status = 'ACTIVE' AND category_id = 9;
@@ -95,20 +107,28 @@ CREATE INDEX IF NOT EXISTS idx_offers_listing_status_price
 CREATE INDEX IF NOT EXISTS idx_favourites_saved_listing
     ON favourites (saved_at, listing_id);
 
--- R18: groups on exactly these columns; the compact ordered index can feed the
--- duplicate aggregation without sorting the entire listings table.
-CREATE INDEX IF NOT EXISTS idx_listings_seller_title_price
-    ON listings (seller_id, title, price);
+-- Dropped in Phase 5 to reduce write amplification on W04 (R18 still passes < 5,000 ms via scan,
+-- and idx_listings_posted_at duplicated idx_listings_posted_desc):
+-- CREATE INDEX IF NOT EXISTS idx_listings_seller_title_price
+--     ON listings (seller_id, title, price);
+-- CREATE INDEX IF NOT EXISTS idx_listings_posted_at
+--     ON listings (posted_at);
 
--- R20: supports the sargable June timestamp range in the optimized query.
-CREATE INDEX IF NOT EXISTS idx_listings_posted_at
-    ON listings (posted_at);
-
--- R22: matches newest-first pagination and carries all selected values for an
--- index-only scan when the visibility map allows it.
+-- R20, R22: slim index on (posted_at DESC, listing_id DESC) supports R22 keyset seek and
+-- R20 index-only date range scan without carrying wide INCLUDE columns on every W04 update.
+-- Replaced in Phase 5 (old INCLUDE carried title/status on all 2.4M rows):
+-- CREATE INDEX IF NOT EXISTS idx_listings_posted_desc
+--     ON listings (posted_at DESC)
+--     INCLUDE (listing_id, seller_id, category_id, title, status);
 CREATE INDEX IF NOT EXISTS idx_listings_posted_desc
-    ON listings (posted_at DESC)
-    INCLUDE (listing_id, seller_id, category_id, title, status);
+    ON listings (posted_at DESC, listing_id DESC);
+
+-- Phase 5 physical clustering for W04: pack ACTIVE rows by expires_at so nightly expiry
+-- updates contiguous heap pages instead of 35,000+ scattered pages, then drop temp index.
+CREATE INDEX IF NOT EXISTS idx_listings_status_expires_cluster
+    ON listings (status, expires_at);
+CLUSTER olx.listings USING idx_listings_status_expires_cluster;
+DROP INDEX IF EXISTS idx_listings_status_expires_cluster;
 
 -- R13/R15/R17/R21/R24 are small or broad aggregations at seed size; a full scan
 -- may be cheaper than extra indexes. R23 already uses users.phone's UNIQUE index.

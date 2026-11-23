@@ -1,63 +1,63 @@
 === R20 run 1 ===
-WindowAgg  (cost=17550.95..22188.17 rows=132455 width=44) (actual time=12.180..17.064 rows=30.00 loops=1)
+WindowAgg  (cost=15464.36..19868.05 rows=125746 width=44) (actual time=13.303..18.136 rows=30.00 loops=1)
   Window: w1 AS (ORDER BY ((listings.posted_at)::date))
   Storage: Memory  Maximum Storage: 17kB
-  Buffers: shared hit=6 read=362
-  ->  GroupAggregate  (cost=17550.91..20201.35 rows=132455 width=12) (actual time=12.008..17.045 rows=30.00 loops=1)
+  Buffers: shared hit=39996 read=504
+  ->  GroupAggregate  (cost=15464.33..17981.86 rows=125746 width=12) (actual time=13.122..18.115 rows=30.00 loops=1)
         Group Key: ((listings.posted_at)::date)
-        Buffers: shared hit=6 read=362
-        ->  Sort  (cost=17550.91..17882.49 rows=132633 width=4) (actual time=11.832..14.106 rows=131538.00 loops=1)
+        Buffers: shared hit=39996 read=504
+        ->  Sort  (cost=15464.33..15779.56 rows=126094 width=4) (actual time=12.957..15.206 rows=131538.00 loops=1)
               Sort Key: ((listings.posted_at)::date)
               Sort Method: quicksort  Memory: 4096kB
-              Buffers: shared hit=6 read=362
-              ->  Index Only Scan using idx_listings_posted_at on listings  (cost=0.44..4449.28 rows=132633 width=4) (actual time=0.310..8.920 rows=131538.00 loops=1)
+              Buffers: shared hit=39996 read=504
+              ->  Index Only Scan using idx_listings_posted_desc on listings  (cost=0.44..4781.55 rows=126094 width=4) (actual time=0.008..9.647 rows=131538.00 loops=1)
                     Index Cond: ((posted_at >= ('2026-06-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))) AND (posted_at < ('2026-07-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))))
                     Heap Fetches: 0
                     Index Searches: 1
-                    Buffers: shared hit=3 read=362
+                    Buffers: shared hit=39993 read=504
 Planning:
-  Buffers: shared hit=386 read=4
-Planning Time: 0.873 ms
-Execution Time: 17.096 ms
-=== R20 run 2 ===
-WindowAgg  (cost=17550.95..22188.17 rows=132455 width=44) (actual time=10.641..15.327 rows=30.00 loops=1)
-  Window: w1 AS (ORDER BY ((listings.posted_at)::date))
-  Storage: Memory  Maximum Storage: 17kB
-  Buffers: shared hit=368
-  ->  GroupAggregate  (cost=17550.91..20201.35 rows=132455 width=12) (actual time=10.441..15.308 rows=30.00 loops=1)
-        Group Key: ((listings.posted_at)::date)
-        Buffers: shared hit=368
-        ->  Sort  (cost=17550.91..17882.49 rows=132633 width=4) (actual time=10.260..12.469 rows=131538.00 loops=1)
-              Sort Key: ((listings.posted_at)::date)
-              Sort Method: quicksort  Memory: 4096kB
-              Buffers: shared hit=368
-              ->  Index Only Scan using idx_listings_posted_at on listings  (cost=0.44..4449.28 rows=132633 width=4) (actual time=0.011..7.234 rows=131538.00 loops=1)
-                    Index Cond: ((posted_at >= ('2026-06-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))) AND (posted_at < ('2026-07-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))))
-                    Heap Fetches: 0
-                    Index Searches: 1
-                    Buffers: shared hit=365
-Planning:
-  Buffers: shared hit=390
+  Buffers: shared hit=340 read=3
 Planning Time: 0.570 ms
-Execution Time: 15.357 ms
-=== R20 run 3 ===
-WindowAgg  (cost=17550.95..22188.17 rows=132455 width=44) (actual time=10.623..15.581 rows=30.00 loops=1)
+Execution Time: 18.168 ms
+=== R20 run 2 ===
+WindowAgg  (cost=15464.36..19868.05 rows=125746 width=44) (actual time=12.627..17.459 rows=30.00 loops=1)
   Window: w1 AS (ORDER BY ((listings.posted_at)::date))
   Storage: Memory  Maximum Storage: 17kB
-  Buffers: shared hit=368
-  ->  GroupAggregate  (cost=17550.91..20201.35 rows=132455 width=12) (actual time=10.443..15.564 rows=30.00 loops=1)
+  Buffers: shared hit=40500
+  ->  GroupAggregate  (cost=15464.33..17981.86 rows=125746 width=12) (actual time=12.454..17.442 rows=30.00 loops=1)
         Group Key: ((listings.posted_at)::date)
-        Buffers: shared hit=368
-        ->  Sort  (cost=17550.91..17882.49 rows=132633 width=4) (actual time=10.262..12.578 rows=131538.00 loops=1)
+        Buffers: shared hit=40500
+        ->  Sort  (cost=15464.33..15779.56 rows=126094 width=4) (actual time=12.289..14.548 rows=131538.00 loops=1)
               Sort Key: ((listings.posted_at)::date)
               Sort Method: quicksort  Memory: 4096kB
-              Buffers: shared hit=368
-              ->  Index Only Scan using idx_listings_posted_at on listings  (cost=0.44..4449.28 rows=132633 width=4) (actual time=0.012..7.238 rows=131538.00 loops=1)
+              Buffers: shared hit=40500
+              ->  Index Only Scan using idx_listings_posted_desc on listings  (cost=0.44..4781.55 rows=126094 width=4) (actual time=0.007..8.989 rows=131538.00 loops=1)
                     Index Cond: ((posted_at >= ('2026-06-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))) AND (posted_at < ('2026-07-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))))
                     Heap Fetches: 0
                     Index Searches: 1
-                    Buffers: shared hit=365
+                    Buffers: shared hit=40497
 Planning:
-  Buffers: shared hit=390
-Planning Time: 0.576 ms
-Execution Time: 15.609 ms
+  Buffers: shared hit=343
+Planning Time: 0.503 ms
+Execution Time: 17.489 ms
+=== R20 run 3 ===
+WindowAgg  (cost=15464.36..19868.05 rows=125746 width=44) (actual time=13.214..18.196 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((listings.posted_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=40500
+  ->  GroupAggregate  (cost=15464.33..17981.86 rows=125746 width=12) (actual time=13.030..18.178 rows=30.00 loops=1)
+        Group Key: ((listings.posted_at)::date)
+        Buffers: shared hit=40500
+        ->  Sort  (cost=15464.33..15779.56 rows=126094 width=4) (actual time=12.853..15.177 rows=131538.00 loops=1)
+              Sort Key: ((listings.posted_at)::date)
+              Sort Method: quicksort  Memory: 4096kB
+              Buffers: shared hit=40500
+              ->  Index Only Scan using idx_listings_posted_desc on listings  (cost=0.44..4781.55 rows=126094 width=4) (actual time=0.007..9.336 rows=131538.00 loops=1)
+                    Index Cond: ((posted_at >= ('2026-06-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))) AND (posted_at < ('2026-07-01 00:00:00'::timestamp without time zone AT TIME ZONE current_setting('TimeZone'::text))))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=40497
+Planning:
+  Buffers: shared hit=343
+Planning Time: 0.520 ms
+Execution Time: 18.226 ms

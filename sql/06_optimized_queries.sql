@@ -34,9 +34,18 @@ ORDER BY price;
 
 -- @R03
 -- Search: active "iPhone 13" ads anywhere, cheapest first
+-- Phase 5 change: use strpos(lower(title), 'iphone 13') > 0 with covering index
+-- idx_listings_active_price_ltitle (price, lower(title)) INCLUDE (title, listing_id, city_id, item_condition)
+-- to avoid per-row locale ILIKE overhead while returning the exact same 40 rows.
+-- Original query (commented out):
+-- SELECT listing_id, title, price, city_id, item_condition
+-- FROM listings
+-- WHERE status = 'ACTIVE' AND title ILIKE '%iphone 13%'
+-- ORDER BY price
+-- LIMIT 40;
 SELECT listing_id, title, price, city_id, item_condition
 FROM listings
-WHERE status = 'ACTIVE' AND title ILIKE '%iphone 13%'
+WHERE status = 'ACTIVE' AND strpos(lower(title), 'iphone 13') > 0
 ORDER BY price
 LIMIT 40;
 

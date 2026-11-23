@@ -1,31 +1,31 @@
 query_id,type,avg_ms,median_ms,min_ms,max_ms,scan_nodes
-R01,READ,54.586,6.136,3.227,154.394,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_cat_city_price_posted
-R02,READ,1.865,0.139,0.138,5.318,Index Scan using idx_listings_active_car_filters on listings
-R03,READ,693.292,57.609,52.114,1970.153,Index Scan using idx_listings_active_price on listings
-R04,READ,0.317,0.052,0.050,0.850,Index Scan using listings_pkey on listings | Index Scan using users_pkey on users | Index Only Scan using idx_seller_ratings_seller_stars on seller_ratings
-R05,READ,0.164,0.054,0.053,0.386,Index Only Scan using idx_listings_seller_status_id on listings
-R06,READ,1.158,0.130,0.122,3.222,Index Only Scan using idx_chat_threads_buyer_listing on chat_threads | Index Only Scan using idx_listings_seller_status_id on listings | Index Only Scan using idx_chat_threads_listing on chat_threads | Index Scan using listings_pkey on listings | Index Only Scan using idx_chat_messages_thread_latest on chat_messages
-R07,READ,0.229,0.088,0.087,0.511,Index Only Scan using idx_chat_threads_buyer_listing on chat_threads | Index Only Scan using idx_listings_seller_status_id on listings | Index Only Scan using idx_chat_threads_listing on chat_threads | Index Only Scan using idx_chat_messages_unread_thread on chat_messages
-R08,READ,78.243,31.752,30.787,172.189,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_category_model_posted
-R09,READ,1.486,0.865,0.855,2.737,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_furniture_lon
-R10,READ,11.112,2.643,2.629,28.063,Index Scan using idx_listings_active_expires on listings
-R11,READ,12.351,5.839,5.052,26.161,Index Only Scan using idx_reports_open_listing on reports | Index Scan using listings_pkey on listings
-R12,READ,1137.371,1142.731,1118.662,1150.720,Seq Scan on listings
-R13,READ,204.624,202.065,201.364,210.444,Seq Scan on listings | Seq Scan on boost_packages
-R14,READ,85.508,84.891,84.795,86.839,Index Scan using idx_listings_sold_at on listings | Seq Scan on categories
-R15,READ,182.331,180.704,180.371,185.917,Seq Scan on listings | Seq Scan on offers | Seq Scan on categories
-R16,READ,83.939,81.444,80.916,89.458,Index Scan using idx_listings_active_expires on listings | Index Only Scan using idx_favourites_saved_listing on favourites
-R17,READ,188.605,188.665,187.489,189.660,Seq Scan on listings | Seq Scan on categories
-R18,READ,451.554,445.721,441.902,467.038,Index Only Scan using idx_listings_seller_title_price on listings
-R19,READ,48.682,13.532,10.966,121.549,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_car_filters | Index Only Scan using idx_chat_threads_listing on chat_threads | Index Only Scan using idx_chat_messages_thread_latest on chat_messages
-R20,READ,16.021,15.609,15.357,17.096,Index Only Scan using idx_listings_posted_at on listings
-R21,READ,35.836,34.858,34.135,38.515,Index Only Scan using idx_seller_ratings_seller_stars on seller_ratings | Index Scan using users_pkey on users
-R22,READ,0.164,0.065,0.056,0.372,Index Only Scan using idx_listings_posted_desc on listings
-R23,READ,0.217,0.026,0.025,0.600,Index Scan using users_phone_key on users
-R24,READ,18.167,17.538,16.790,20.172,Index Only Scan using idx_listings_active_car_filters on listings | Seq Scan on categories
-R25,READ,896.882,834.631,826.132,1029.882,Seq Scan on listings | Seq Scan on chat_threads | Index Only Scan using idx_chat_messages_thread_latest on chat_messages | Seq Scan on categories
-W01,WRITE,2.524,1.198,1.164,5.209,(no scan)
-W02,WRITE,0.315,0.055,0.055,0.836,Index Only Scan using idx_listings_seller_status_id on listings | Index Scan using listings_pkey on listings
-W03,WRITE,0.831,0.570,0.393,1.531,Index Only Scan using idx_chat_threads_buyer_listing on chat_threads
-W04,WRITE,6643.895,4285.806,3754.075,11891.805,Index Scan using idx_listings_active_expires on listings
-W05,WRITE,0.242,0.056,0.052,0.619,Index Only Scan using idx_offers_listing_status_price on offers | Index Scan using idx_offers_listing_status_price on offers
+R01,READ,0.098,0.098,0.096,0.100,Index Scan using idx_listings_active_cat_city_posted_price on listings
+R02,READ,0.199,0.181,0.172,0.243,Index Scan using idx_listings_active_car_filters on listings
+R03,READ,3.294,3.110,3.030,3.741,Index Only Scan using idx_listings_active_price_ltitle on listings
+R04,READ,0.234,0.053,0.051,0.597,Index Scan using listings_pkey on listings | Index Scan using users_pkey on users | Index Only Scan using idx_seller_ratings_seller_stars on seller_ratings
+R05,READ,0.055,0.055,0.052,0.058,Index Only Scan using idx_listings_seller_status_id on listings
+R06,READ,1.119,0.137,0.134,3.086,Index Only Scan using idx_chat_threads_buyer_listing on chat_threads | Index Only Scan using idx_listings_seller_status_id on listings | Index Only Scan using idx_chat_threads_listing on chat_threads | Index Scan using listings_pkey on listings | Index Only Scan using idx_chat_messages_thread_latest on chat_messages
+R07,READ,0.118,0.096,0.084,0.174,Index Only Scan using idx_chat_threads_buyer_listing on chat_threads | Index Only Scan using idx_listings_seller_status_id on listings | Index Only Scan using idx_chat_threads_listing on chat_threads | Index Only Scan using idx_chat_messages_unread_thread on chat_messages
+R08,READ,43.994,40.369,36.864,54.750,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_category_model_posted
+R09,READ,0.989,0.735,0.696,1.536,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_furniture_lon
+R10,READ,2.666,2.578,2.511,2.908,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_expires
+R11,READ,5.301,4.852,4.847,6.205,Index Only Scan using idx_reports_open_listing on reports | Index Scan using listings_pkey on listings
+R12,READ,1138.834,1129.549,1107.444,1179.510,Seq Scan on listings
+R13,READ,207.971,202.247,197.030,224.635,Seq Scan on listings | Seq Scan on boost_packages
+R14,READ,58.949,57.947,57.903,60.997,Index Scan using idx_listings_sold_at on listings | Seq Scan on categories
+R15,READ,179.551,178.740,177.115,182.797,Seq Scan on listings | Seq Scan on offers | Seq Scan on categories
+R16,READ,16.734,15.568,15.282,19.353,Index Only Scan using idx_listings_active_price_ltitle on listings | Index Only Scan using idx_favourites_saved_listing on favourites
+R17,READ,178.770,179.161,176.567,180.582,Seq Scan on listings | Seq Scan on categories
+R18,READ,1156.743,1152.850,1147.182,1170.197,Seq Scan on listings
+R19,READ,53.277,10.874,10.751,138.206,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_car_filters | Index Only Scan using idx_chat_threads_listing on chat_threads | Index Only Scan using idx_chat_messages_thread_latest on chat_messages
+R20,READ,17.961,18.168,17.489,18.226,Index Only Scan using idx_listings_posted_desc on listings
+R21,READ,35.237,34.452,33.894,37.366,Index Only Scan using idx_seller_ratings_seller_stars on seller_ratings | Index Scan using users_pkey on users
+R22,READ,0.034,0.031,0.030,0.041,Index Scan using idx_listings_posted_desc on listings
+R23,READ,0.200,0.026,0.025,0.548,Index Scan using users_phone_key on users
+R24,READ,16.129,16.118,16.028,16.242,Index Only Scan using idx_listings_active_car_filters on listings | Seq Scan on categories
+R25,READ,837.766,838.122,827.679,847.497,Seq Scan on listings | Seq Scan on chat_threads | Index Only Scan using idx_chat_messages_thread_latest on chat_messages | Seq Scan on categories
+W01,WRITE,1.645,1.186,1.161,2.588,(no scan)
+W02,WRITE,0.210,0.058,0.057,0.515,Index Only Scan using idx_listings_seller_status_id on listings | Index Scan using listings_pkey on listings
+W03,WRITE,0.745,0.377,0.366,1.491,Index Only Scan using idx_chat_threads_buyer_listing on chat_threads
+W04,WRITE,549.635,544.900,532.795,571.211,Bitmap Heap Scan on listings | Bitmap Index Scan on idx_listings_active_car_filters
+W05,WRITE,0.147,0.053,0.052,0.337,Index Only Scan using idx_offers_listing_status_price on offers | Index Scan using idx_offers_listing_status_price on offers

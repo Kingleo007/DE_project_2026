@@ -1,36 +1,48 @@
 === W04 run 1 ===
-Update on listings  (cost=0.42..41387.86 rows=0 width=0) (actual time=11891.759..11891.759 rows=0.00 loops=1)
-  Buffers: shared hit=967282 read=152256 dirtied=153275 written=129373
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.42..41387.86 rows=190676 width=64) (actual time=0.015..193.049 rows=45275.00 loops=1)
-        Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
-        Filter: ((status)::text = 'ACTIVE'::text)
-        Index Searches: 1
-        Buffers: shared hit=191 read=35315 written=29556
+Update on listings  (cost=2684.02..113842.25 rows=0 width=0) (actual time=532.746..532.746 rows=0.00 loops=1)
+  Buffers: shared hit=630708 read=66362 dirtied=61755 written=52141
+  ->  Bitmap Heap Scan on listings  (cost=2684.02..113842.25 rows=185749 width=64) (actual time=4.393..43.365 rows=45275.00 loops=1)
+        Recheck Cond: ((status)::text = 'ACTIVE'::text)
+        Filter: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
+        Rows Removed by Filter: 153239
+        Heap Blocks: exact=7168
+        Buffers: shared hit=157 read=7417 written=6525
+        ->  Bitmap Index Scan on idx_listings_active_car_filters  (cost=0.00..2637.59 rows=200233 width=0) (actual time=3.918..3.918 rows=198517.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=2 read=404
 Planning:
-  Buffers: shared hit=345
-Planning Time: 0.579 ms
-Execution Time: 11891.805 ms
+  Buffers: shared hit=307
+Planning Time: 0.486 ms
+Execution Time: 532.795 ms
 === W04 run 2 ===
-Update on listings  (cost=0.42..42076.85 rows=0 width=0) (actual time=4285.410..4285.410 rows=0.00 loops=1)
-  Buffers: shared hit=971198 read=153738 dirtied=155003 written=151795
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.42..42076.85 rows=193858 width=64) (actual time=0.043..1031.389 rows=45275.00 loops=1)
-        Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
-        Filter: ((status)::text = 'ACTIVE'::text)
-        Index Searches: 1
-        Buffers: shared hit=191 read=35315 dirtied=35190 written=34113
+Update on listings  (cost=2684.77..115827.35 rows=0 width=0) (actual time=571.118..571.118 rows=0.00 loops=1)
+  Buffers: shared hit=657178 read=69445 dirtied=65180 written=66487
+  ->  Bitmap Heap Scan on listings  (cost=2684.77..115827.35 rows=188733 width=64) (actual time=5.753..45.986 rows=45275.00 loops=1)
+        Recheck Cond: ((status)::text = 'ACTIVE'::text)
+        Filter: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
+        Rows Removed by Filter: 153239
+        Heap Blocks: exact=7168
+        Buffers: shared hit=25 read=7549 dirtied=1534 written=7399
+        ->  Bitmap Index Scan on idx_listings_active_car_filters  (cost=0.00..2637.59 rows=203450 width=0) (actual time=5.232..5.233 rows=198517.00 loops=1)
+              Index Searches: 1
+              Buffers: shared read=406 written=405
 Planning:
-  Buffers: shared hit=292 read=53 written=50
-Planning Time: 1.404 ms
-Execution Time: 4285.806 ms
+  Buffers: shared hit=252 read=55 written=55
+Planning Time: 0.937 ms
+Execution Time: 571.211 ms
 === W04 run 3 ===
-Update on listings  (cost=0.42..42814.19 rows=0 width=0) (actual time=3753.988..3753.989 rows=0.00 loops=1)
-  Buffers: shared hit=977538 read=156749 dirtied=157650 written=155181
-  ->  Index Scan using idx_listings_active_expires on listings  (cost=0.42..42814.19 rows=197254 width=64) (actual time=0.044..863.178 rows=45275.00 loops=1)
-        Index Cond: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
-        Filter: ((status)::text = 'ACTIVE'::text)
-        Index Searches: 1
-        Buffers: shared hit=193 read=35313 dirtied=35218 written=33524
+Update on listings  (cost=2685.60..118029.88 rows=0 width=0) (actual time=544.810..544.810 rows=0.00 loops=1)
+  Buffers: shared hit=658816 read=63758 dirtied=58965 written=60213
+  ->  Bitmap Heap Scan on listings  (cost=2685.60..118029.88 rows=192044 width=64) (actual time=5.397..46.137 rows=45275.00 loops=1)
+        Recheck Cond: ((status)::text = 'ACTIVE'::text)
+        Filter: (expires_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone)
+        Rows Removed by Filter: 153239
+        Heap Blocks: exact=7168
+        Buffers: shared read=7574 dirtied=1633 written=7375
+        ->  Bitmap Index Scan on idx_listings_active_car_filters  (cost=0.00..2637.59 rows=207019 width=0) (actual time=4.922..4.922 rows=198517.00 loops=1)
+              Index Searches: 1
+              Buffers: shared read=406 written=405
 Planning:
-  Buffers: shared hit=292 read=53 written=53
-Planning Time: 0.897 ms
-Execution Time: 3754.075 ms
+  Buffers: shared hit=252 read=55 written=55
+Planning Time: 0.890 ms
+Execution Time: 544.900 ms

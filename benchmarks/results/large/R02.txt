@@ -1,39 +1,39 @@
 === R02 run 1 ===
-Sort  (cost=12.44..12.45 rows=2 width=103) (actual time=5.298..5.301 rows=85.00 loops=1)
+Sort  (cost=8.46..8.46 rows=1 width=103) (actual time=0.228..0.230 rows=85.00 loops=1)
   Sort Key: price
   Sort Method: quicksort  Memory: 42kB
-  Buffers: shared hit=23 read=72
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.42..12.43 rows=2 width=103) (actual time=0.446..5.263 rows=85.00 loops=1)
+  Buffers: shared hit=53 read=42
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.42..8.45 rows=1 width=103) (actual time=0.030..0.208 rows=85.00 loops=1)
         Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
         Index Searches: 1
-        Buffers: shared hit=20 read=72
+        Buffers: shared hit=50 read=42
 Planning:
-  Buffers: shared hit=416
-Planning Time: 0.689 ms
-Execution Time: 5.318 ms
+  Buffers: shared hit=380
+Planning Time: 0.642 ms
+Execution Time: 0.243 ms
 === R02 run 2 ===
-Sort  (cost=12.44..12.45 rows=2 width=103) (actual time=0.124..0.126 rows=85.00 loops=1)
+Sort  (cost=8.46..8.46 rows=1 width=103) (actual time=0.166..0.168 rows=85.00 loops=1)
   Sort Key: price
   Sort Method: quicksort  Memory: 42kB
   Buffers: shared hit=95
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.42..12.43 rows=2 width=103) (actual time=0.020..0.106 rows=85.00 loops=1)
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.42..8.45 rows=1 width=103) (actual time=0.023..0.147 rows=85.00 loops=1)
         Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
         Index Searches: 1
         Buffers: shared hit=92
 Planning:
-  Buffers: shared hit=416
-Planning Time: 0.583 ms
-Execution Time: 0.138 ms
+  Buffers: shared hit=380
+Planning Time: 0.625 ms
+Execution Time: 0.181 ms
 === R02 run 3 ===
-Sort  (cost=12.44..12.45 rows=2 width=103) (actual time=0.125..0.126 rows=85.00 loops=1)
+Sort  (cost=8.46..8.46 rows=1 width=103) (actual time=0.157..0.159 rows=85.00 loops=1)
   Sort Key: price
   Sort Method: quicksort  Memory: 42kB
   Buffers: shared hit=95
-  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.42..12.43 rows=2 width=103) (actual time=0.021..0.106 rows=85.00 loops=1)
+  ->  Index Scan using idx_listings_active_car_filters on listings  (cost=0.42..8.45 rows=1 width=103) (actual time=0.022..0.139 rows=85.00 loops=1)
         Index Cond: ((category_id = 2) AND (city_id = 6) AND ((attributes ->> 'fuel'::text) = 'Diesel'::text) AND (((attributes ->> 'year'::text))::integer >= 2018) AND (((attributes ->> 'km_driven'::text))::integer <= 60000))
         Index Searches: 1
         Buffers: shared hit=92
 Planning:
-  Buffers: shared hit=416
-Planning Time: 0.680 ms
-Execution Time: 0.139 ms
+  Buffers: shared hit=380
+Planning Time: 0.585 ms
+Execution Time: 0.172 ms
